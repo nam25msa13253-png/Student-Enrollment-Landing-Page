@@ -621,7 +621,7 @@
 
     <script>
         const API_URL = 'http://localhost:3000/api';
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('authToken');
         let currentCourseId = null, allLessons = {}, charts = {};
 
         document.getElementById('current-date').innerText = new Date().toLocaleDateString('vi-VN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
