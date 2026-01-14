@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khóa học - HHT Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen font-[Inter]">
+
+    <header class="sticky top-0 z-50 bg-white shadow-md h-20">
+        <div class="container mx-auto px-4 h-full flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center p-1 border border-gray-100">
+                    <img src="assets/images/HHT.png" alt="HHT Logo" class="w-full h-full object-contain">
+                </div>
+                <div class="flex flex-col">
+                    <span
+                        class="text-xl font-extrabold text-gray-800 uppercase leading-none group-hover:text-blue-700 transition-colors">HHT</span>
+                    <span class="text-xs font-semibold text-blue-600 tracking-[0.2em] leading-none">ACADEMY</span>
+                </div>
+            </a>
+
+            <nav class="hidden lg:flex items-center gap-8">
+                <a href="index.html"
+                    class="text-gray-600 hover:text-blue-700 font-bold text-sm uppercase tracking-wide transition-colors py-2 hover:border-b-2 hover:border-blue-700">Trang
+                    chủ</a>
+                <a href="about.html"
+                    class="text-gray-600 hover:text-blue-700 font-bold text-sm uppercase tracking-wide transition-colors py-2 hover:border-b-2 hover:border-blue-700">Giới
+                    thiệu</a>
+                <a href="courses.html"
+                    class="text-blue-700 font-bold text-sm uppercase tracking-wide border-b-2 border-blue-700 py-2">Khóa
+                    học</a>
+                <a href="contact.html"
+                    class="text-gray-600 hover:text-blue-700 font-bold text-sm uppercase tracking-wide transition-colors py-2 hover:border-b-2 hover:border-blue-700">Liên
+                    hệ</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <div id="auth-buttons" class="hidden sm:flex items-center gap-3">
+                    <div class="h-6 w-px bg-gray-300 mx-1"></div>
+                    <a href="login.html"
+                        class="px-4 py-2 text-sm font-bold text-gray-700 hover:text-blue-700 transition-colors">Đăng
+                        nhập</a>
+                    <a href="register.html"
+                        class="px-5 py-2.5 text-sm font-bold text-white bg-blue-700 hover:bg-blue-800 rounded-full shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
+                        Đăng ký
+                    </a>
+                </div>
+
+                <div id="user-menu" class="hidden items-center gap-3">
+                    <span class="text-sm text-gray-500 hidden md:inline">Xin chào,</span>
+                    <span id="user-name" class="text-sm font-bold text-blue-700 max-w-[100px] truncate">User</span>
+                    <a href="admin.html" id="admin-link"
+                        class="hidden text-xs bg-red-100 text-red-600 px-2 py-1 rounded font-bold hover:bg-red-200">Admin</a>
+                    <button id="btn-logout" class="text-xl text-gray-500 hover:text-red-600 ml-2" title="Đăng xuất">
+                        <i class="ph-bold ph-sign-out"></i>
+                    </button>
+                </div>
+
+                <button id="mobile-menu-btn" class="lg:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <i class="ph ph-list text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu"
+            class="hidden lg:hidden border-t border-gray-100 bg-white shadow-xl absolute w-full top-20 left-0 z-40 origin-top">
+            <div class="p-4 flex flex-col gap-2">
+                <a href="index.html"
+                    class="mobile-link block p-3 rounded-lg hover:bg-blue-50 font-bold text-gray-700">Trang chủ</a>
+                <a href="about.html"
+                    class="mobile-link block p-3 rounded-lg hover:bg-blue-50 font-bold text-gray-700">Giới thiệu</a>
+                <a href="courses.html" class="mobile-link block p-3 rounded-lg bg-blue-50 font-bold text-blue-700">Khóa
+                    học</a>
+                <hr class="border-gray-200 my-2">
+                <a href="login.html"
+                    class="mobile-link block w-full py-3 text-center text-gray-700 font-bold border border-gray-200 rounded-lg mb-2">Đăng
+                    nhập</a>
+                <a href="register.html"
+                    class="mobile-link block w-full py-3 text-center text-white bg-blue-700 font-bold rounded-lg">Đăng
+                    ký ngay</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow py-12">
+        <div class="container mx-auto px-4">
+
+            <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2">Tất cả khóa học</h1>
+                    <p class="text-gray-500">Khám phá tri thức, nâng tầm kỹ năng.</p>
+                </div>
+
+                <div class="relative w-full md:w-96 group">
+                    <input type="text" id="search-input" placeholder="Tìm kiếm khóa học (VD: React, Python)..."
+                        class="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all">
+                    <i
+                        class="ph-bold ph-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors text-xl"></i>
+                </div>
+            </div>
+
+            <div class="flex gap-2 overflow-x-auto pb-4 mb-8 scrollbar-hide">
+                <button
+                    class="px-5 py-2 bg-blue-600 text-white rounded-full text-sm font-bold whitespace-nowrap shadow-md">Tất
+                    cả</button>
+                <button
+                    class="px-5 py-2 bg-white border border-gray-200 text-gray-600 rounded-full text-sm font-bold whitespace-nowrap hover:bg-gray-50 transition-colors">Lập
+                    trình Web</button>
+                <button
+                    class="px-5 py-2 bg-white border border-gray-200 text-gray-600 rounded-full text-sm font-bold whitespace-nowrap hover:bg-gray-50 transition-colors">Phân
+                    tích dữ liệu</button>
+                <button
+                    class="px-5 py-2 bg-white border border-gray-200 text-gray-600 rounded-full text-sm font-bold whitespace-nowrap hover:bg-gray-50 transition-colors">Thiết
+                    kế UI/UX</button>
+                <button
+                    class="px-5 py-2 bg-white border border-gray-200 text-gray-600 rounded-full text-sm font-bold whitespace-nowrap hover:bg-gray-50 transition-colors">Ngoại
+                    ngữ</button>
+            </div>
+
+
+            <div id="courses-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+
+                <div class="col-span-full text-center py-20">
+                    <div
+                        class="inline-block w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin">
+                    </div>
+                    <p class="mt-3 text-gray-500 font-medium">Đang tải danh sách khóa học...</p>
+                </div>
+            </div>
+
+            <div class="mt-12 flex justify-center gap-2">
+                <button
+                    class="w-10 h-10 rounded-lg border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 disabled:opacity-50"
+                    disabled>
+                    <i class="ph-bold ph-caret-left"></i>
+                </button>
+                <button
+                    class="w-10 h-10 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold shadow-md">1</button>
+                <button
+                    class="w-10 h-10 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 font-bold">2</button>
+                <button
+                    class="w-10 h-10 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 font-bold">3</button>
+                <button
+                    class="w-10 h-10 rounded-lg border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50">
+                    <i class="ph-bold ph-caret-right"></i>
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-gray-400 py-10 border-t border-gray-800 text-center text-sm mt-auto">
+        <p>&copy; 2025 HHT Academy. All rights reserved.</p>
+    </footer>
+
+
+    <script src="js/main.js"></script>
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        const container = document.getElementById('courses-container');
+        const searchInput = document.getElementById('search-input');
+        let searchTimeout;
+
+        function renderCourses(courses) {
+            if (courses.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12 bg-white rounded-2xl shadow-sm border border-dashed border-gray-300">
+                        <i class="ph-duotone ph-magnifying-glass text-4xl text-gray-300 mb-3"></i>
+                        <p class="text-gray-500">Không tìm thấy khóa học nào phù hợp.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = courses.map(course => `
+                <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col h-full group cursor-pointer" onclick="window.location.href='player.html'">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="${course.image}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="${course.title}" onerror="this.src='https://via.placeholder.com/400x250?text=HHT+Academy'">
+                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-xs font-bold text-blue-700 shadow-sm uppercase tracking-wider">
+                            Khóa học
+                        </div>
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-blue-600 shadow-lg scale-0 group-hover:scale-100 transition-transform duration-300">
+                                <i class="ph-fill ph-play"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <h3 class="font-bold text-gray-800 text-lg mb-2 line-clamp-2 h-14 leading-snug" title="${course.title}">
+                            ${course.title}
+                        </h3>
+                        
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full overflow-hidden border border-gray-200 flex-shrink-0">
+                                <img src="${course.instructor_avatar || `https://ui-avatars.com/api/?name=${course.instructor_name || 'HHT'}&background=random`}" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-xs text-gray-400 font-medium uppercase">Giảng viên</span>
+                                <span class="text-xs font-bold text-gray-700 truncate max-w-[120px]">${course.instructor_name || 'HHT Academy'}</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto pt-4 border-t border-gray-50 flex items-end justify-between">
+                            <div>
+                                <div class="text-xs text-gray-400 line-through mb-0.5">
+                                    ${(parseInt(course.price) * 1.3).toLocaleString('vi-VN')}đ
+                                </div>
+                                <div class="text-xl font-bold text-blue-600">
+                                    ${parseInt(course.price).toLocaleString('vi-VN')}đ
+                                </div>
+                            </div>
+                            <button class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors shadow-sm">
+                                <i class="ph-bold ph-shopping-cart-simple"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function fetchCourses(keyword = '') {
+            try {
+                const endpoint = keyword
+                    ? `${API_URL}/courses/search?keyword=${encodeURIComponent(keyword)}`
+                    : `${API_URL}/courses`;
+
+                const res = await fetch(endpoint);
+                if (!res.ok) throw new Error('Network error');
+
+                const courses = await res.json();
+                renderCourses(courses);
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-10">
+                        <p class="text-red-500">Không thể tải dữ liệu. Vui lòng kiểm tra Backend.</p>
+                    </div>
+                `;
+            }
+        }
+
+        fetchCourses();
+
+        searchInput.addEventListener('input', (e) => {
+            const keyword = e.target.value.trim();
+
+            clearTimeout(searchTimeout);
+
+            searchTimeout = setTimeout(() => {
+                fetchCourses(keyword);
+            }, 500);
+        });
+    </script>
+</body>
+
+</html>

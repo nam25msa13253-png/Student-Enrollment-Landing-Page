@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Về chúng tôi - HHT Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body class="bg-white text-gray-900 flex flex-col min-h-screen font-[Inter]">
+
+    <header class="sticky top-0 z-50 bg-white shadow-md h-20">
+        <div class="container mx-auto px-4 h-full flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center p-1 border border-gray-100">
+                    <img src="assets/images/HHT.png" alt="HHT Logo" class="w-full h-full object-contain">
+                </div>
+                <div class="flex flex-col">
+                    <span
+                        class="text-xl font-extrabold text-gray-800 uppercase leading-none group-hover:text-blue-700 transition-colors">HHT</span>
+                    <span class="text-xs font-semibold text-blue-600 tracking-[0.2em] leading-none">ACADEMY</span>
+                </div>
+            </a>
+
+            <nav class="hidden lg:flex items-center gap-8">
+                <a href="index.html"
+                    class="text-gray-600 hover:text-blue-700 font-bold text-sm uppercase tracking-wide transition-colors py-2 hover:border-b-2 hover:border-blue-700">Trang
+                    chủ</a>
+                <a href="about.html"
+                    class="text-blue-700 font-bold text-sm uppercase tracking-wide border-b-2 border-blue-700 py-2">Giới
+                    thiệu</a>
+                <a href="featured.html"
+                    class="text-gray-600 hover:text-blue-700 font-bold text-sm uppercase tracking-wide transition-colors py-2 hover:border-b-2 hover:border-blue-700">Khóa
+                    học</a>
+                <a href="contact.html"
+                    class="text-gray-600 hover:text-blue-700 font-bold text-sm uppercase tracking-wide transition-colors py-2 hover:border-b-2 hover:border-blue-700">Liên
+                    hệ</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <div id="auth-buttons" class="hidden sm:flex items-center gap-3">
+                    <div class="h-6 w-px bg-gray-300 mx-1"></div>
+                    <a href="login.html"
+                        class="px-4 py-2 text-sm font-bold text-gray-700 hover:text-blue-700 transition-colors">Đăng
+                        nhập</a>
+                    <a href="register.html"
+                        class="px-5 py-2.5 text-sm font-bold text-white bg-blue-700 hover:bg-blue-800 rounded-full shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
+                        Đăng ký
+                    </a>
+                </div>
+
+                <div id="user-menu" class="hidden items-center gap-3">
+                    <span class="text-sm text-gray-500 hidden md:inline">Xin chào,</span>
+                    <span id="user-name" class="text-sm font-bold text-blue-700 max-w-[100px] truncate">User</span>
+                    <a href="admin.html" id="admin-link"
+                        class="hidden text-xs bg-red-100 text-red-600 px-2 py-1 rounded font-bold hover:bg-red-200">Admin</a>
+                    <button id="btn-logout" class="text-xl text-gray-500 hover:text-red-600 ml-2" title="Đăng xuất">
+                        <i class="ph-bold ph-sign-out"></i>
+                    </button>
+                </div>
+
+                <button id="mobile-menu-btn" class="lg:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <i class="ph ph-list text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu"
+            class="hidden lg:hidden border-t border-gray-100 bg-white shadow-xl absolute w-full top-20 left-0 z-40 origin-top">
+            <div class="p-4 flex flex-col gap-2">
+                <a href="index.html"
+                    class="mobile-link block p-3 rounded-lg hover:bg-blue-50 font-bold text-gray-700">Trang chủ</a>
+                <a href="about.html" class="mobile-link block p-3 rounded-lg bg-blue-50 font-bold text-blue-700">Giới
+                    thiệu</a>
+                <a href="featured.html"
+                    class="mobile-link block p-3 rounded-lg hover:bg-blue-50 font-bold text-gray-700">Khóa học</a>
+                <hr class="border-gray-200 my-2">
+                <a href="login.html"
+                    class="mobile-link block w-full py-3 text-center text-gray-700 font-bold border border-gray-200 rounded-lg mb-2">Đăng
+                    nhập</a>
+                <a href="register.html"
+                    class="mobile-link block w-full py-3 text-center text-white bg-blue-700 font-bold rounded-lg">Đăng
+                    ký ngay</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section class="relative py-20 bg-slate-900 text-white overflow-hidden">
+            <div class="absolute inset-0 opacity-20" style="background-image: url('assets/images/Ảnh Khoa CNTT.jpg');">
+            </div>
+            <div class="container mx-auto px-4 relative z-10 text-center max-w-3xl">
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-6">Chúng tôi là HHT Academy</h1>
+                <p class="text-xl text-slate-300 leading-relaxed">
+                    Nơi hội tụ những đam mê công nghệ, cùng nhau kiến tạo tương lai số. Chúng tôi tin rằng giáo dục thực
+                    chiến là chìa khóa mở ra cánh cửa sự nghiệp vững chắc.
+                </p>
+            </div>
+        </section>
+
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row items-center gap-16">
+                    <div class="md:w-1/2">
+                        <img src="assets\images\Ảnh thầy cô.jpg"
+                            class="rounded-2xl shadow-2xl w-full object-cover transform hover:scale-[1.02] transition-transform duration-500"
+                            alt="Team working">
+                    </div>
+                    <div class="md:w-1/2">
+                        <span class="text-blue-600 font-bold text-sm uppercase tracking-widest mb-2 block">Câu chuyện
+                            của chúng tôi</span>
+                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Từ những dòng code đầu tiên</h2>
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            Nhóm được thành lập vào năm 2025, xuất phát điểm là một nhóm các sinh viên năm 2 với niềm
+                            đam mê chia sẻ kiến thức.
+                            Chúng tôi nhận thấy khoảng cách lớn giữa "lý thuyết cao đẳng" và "nhu cầu doanh nghiệp".
+                        </p>
+                        <p class="text-gray-600 mb-8 leading-relaxed">
+                            HHT Academy ra đời với sứ mệnh <strong>xóa bỏ khoảng cách đó</strong>. Chúng tôi không dạy
+                            bạn học thuộc lòng, chúng tôi dạy bạn tư duy giải quyết vấn đề và làm ra sản phẩm thực tế.
+                        </p>
+
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="p-4 bg-red-50 rounded-xl border border-red-100">
+                                <i class="ph-fill ph-rocket text-3xl text-red-600 mb-2"></i>
+                                <h4 class="font-bold text-gray-800">Sứ mệnh</h4>
+                                <p class="text-sm text-gray-600">Phổ cập lập trình chất lượng cao từ cơ bản đến nâng
+                                    cao.</p>
+                            </div>
+                            <div class="p-4 bg-green-50 rounded-xl border border-green-100">
+                                <i class="ph-fill ph-eye text-3xl text-green-600 mb-2"></i>
+                                <h4 class="font-bold text-gray-800">Tầm nhìn</h4>
+                                <p class="text-sm text-gray-600">Trong top 10 trang web Education Technology (áp dụng
+                                    công nghệ vào giảng dạy) tại Việt
+                                    Nam vào năm 2030.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Giá trị cốt lõi</h2>
+                    <div class="w-20 h-1 bg-blue-600 mx-auto rounded-full"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div
+                        class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100 text-center group">
+                        <div
+                            class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-blue-600 transition-colors">
+                            <img src="assets\images\Thực chiến.jpg" alt="Icon Thực chiến"
+                                class="w-10 h-10 object-contain">
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Thực chiến (Practical)</h3>
+                        <p class="text-gray-500">Học đi đôi với hành. 80% thời lượng là làm dự án thực tế (Project-based
+                            Learning).</p>
+                    </div>
+
+                    <div
+                        class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100 text-center group">
+                        <div
+                            class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-500 transition-colors">
+                            <img src="assets\images\tận tâm.jpg" alt="Icon Tận tâm" class="w-10 h-10 object-contain">
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Tận tâm (Dedicated)</h3>
+                        <p class="text-gray-500">Đội ngũ giảng viên và trợ giảng hỗ trợ 24/7. Không để học viên nào bị
+                            bỏ lại phía sau.</p>
+                    </div>
+
+                    <div
+                        class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100 text-center group">
+                        <div
+                            class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-purple-600 transition-colors">
+                            <img src="assets\images\Đổi mới.jpg" alt="Icon Đổi mới" class="w-10 h-10 object-contain">
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Đổi mới (Innovative)</h3>
+                        <p class="text-gray-500">Giáo trình được cập nhật liên tục theo xu hướng công nghệ mới nhất của
+                            thế giới.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">Đội ngũ giảng viên tiêu biểu</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="text-center group">
+                        <div
+                            class="relative w-40 h-40 mx-auto mb-4 rounded-full overflow-hidden border-4 border-white shadow-lg group-hover:scale-105 transition-transform">
+                            <img src="assets\images\Thầy giáo Kiều Thành Chung.jpg" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-800">Kiều Thành Chung</h4>
+                        <p class="text-blue-600 text-sm font-medium mb-2">Trường Khoa CNTT - HHT</p>
+                        <p class="text-gray-500 text-xs px-4">Giáo viên có kinh nghiệm chuyên sâu về lĩnh vực
+                            lập trình, đặc biệt bộ môn giải thuật</p>
+                    </div>
+                    <div class="text-center group">
+                        <div
+                            class="relative w-40 h-40 mx-auto mb-4 rounded-full overflow-hidden border-4 border-white shadow-lg group-hover:scale-105 transition-transform">
+                            <img src="assets\images\Thầy Giáo Phạm Quang Hiển.jpg" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-800">Phạm Quang Hiển</h4>
+                        <p class="text-blue-600 text-sm font-medium mb-2">Phó Khoa CNTT - HHT</p>
+                        <p class="text-gray-500 text-xs px-4">Giáo viên giàu kinh nghiệm về lĩnh vực lập trình C# và AI
+                        </p>
+                    </div>
+                    <div class="text-center group">
+                        <div
+                            class="relative w-40 h-40 mx-auto mb-4 rounded-full overflow-hidden border-4 border-white shadow-lg group-hover:scale-105 transition-transform">
+                            <img src="assets\images\Giáo Viên Vũ Thị Tuyết Nhung.jpg"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-800">Vũ Thị Tuyết Nhung</h4>
+                        <p class="text-blue-600 text-sm font-medium mb-2">Trưởng Bộ Môn Khoa CNTT -HHT</p>
+                        <p class="text-gray-500 text-xs px-4">Giáo viên giàu kinh nghiệm về lĩnh vực lập trình PHP và
+                            quản lý dữ liệu Database.</p>
+                    </div>
+                    <div class="text-center group">
+                        <div
+                            class="relative w-40 h-40 mx-auto mb-4 rounded-full overflow-hidden border-4 border-white shadow-lg group-hover:scale-105 transition-transform">
+                            <img src="assets\images\Thầy giáo Lưu Hải Nam.jpg" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-800">Lưu Hải Nam</h4>
+                        <p class="text-blue-600 text-sm font-medium mb-2">Giáo viên</p>
+                        <p class="text-gray-500 text-xs px-4">Giáo viên giàu kinh nghiệm về lĩnh vực lập trình và công
+                            nghệ AI.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-gray-600 text-white text-center">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold mb-6">Sẵn sàng gia nhập HHT Academy?</h2>
+                <p class="text-blue-100 mb-8 max-w-2xl mx-auto text-lg">
+                    Hàng nghìn học viên đã thay đổi sự nghiệp thành công. Người tiếp theo chính là bạn.
+                </p>
+                <a href="register.html"
+                    class="inline-block px-8 py-4 bg-white text-blue-600 font-bold rounded-xl shadow-lg hover:bg-gray-100 transition-all transform hover:-translate-y-1">
+                    Đăng ký tư vấn ngay
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-gray-400 py-10 border-t border-gray-800 text-center text-sm mt-auto">
+        <p>&copy; 2025 HHT Academy. All rights reserved.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

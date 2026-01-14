@@ -1,0 +1,22 @@
+{
+    "name": "hht-academy-project",
+    "version": "1.0.0",
+    "description": "He thong website day hoc truc tuyen HHT Academy",
+    "scripts": {
+        "setup": "cd backend && npm install",
+        "start": "cd backend && npm start",
+        "dev": "cd backend && npm run dev"
+    },
+    "keywords": [],
+    "author": "HHT Team",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^1.13.2",
+        "bcryptjs": "^3.0.3",
+        "bootstrap": "^5.3.8",
+        "dotenv": "^17.2.3",
+        "jsonwebtoken": "^9.0.2",
+        "mysql2": "^3.15.3",
+        "nodemailer": "^7.0.11"
+    }
+}

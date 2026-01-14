@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HHT Admin MAX VIP</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #F8FAFC;
+        }
+
+        .sidebar-gradient {
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        .nav-item.active {
+            background-color: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            border-left: 3px solid #60a5fa;
+        }
+
+        .nav-item {
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover:not(.active) {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .card-shadow {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .lesson-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            resize: vertical;
+            background-color: #f9fafb;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+        }
+
+        .tab-btn.active {
+            border-bottom: 2px solid #3b82f6;
+            color: #3b82f6;
+        }
+
+        .chart-placeholder {
+            min-height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body class="flex h-screen overflow-hidden text-slate-800">
+
+    <aside class="w-64 sidebar-gradient text-slate-400 flex flex-col shadow-2xl shrink-0 transition-all duration-300"
+        id="sidebar">
+        <div class="h-16 flex items-center px-6 border-b border-slate-700/50">
+            <h1 class="font-bold text-white text-lg tracking-wide"><span class="text-blue-500">HHT</span> MAX VIP</h1>
+        </div>
+
+        <nav class="flex-1 py-4 space-y-1 overflow-y-auto">
+            <p class="px-6 text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 mt-2">HIỆU SUẤT & PHÂN
+                TÍCH</p>
+            <a href="#" onclick="switchTab('dashboard')" id="tab-dashboard"
+                class="nav-item active flex items-center px-6 py-3">
+                <i class="ph-bold ph-squares-four text-xl mr-3"></i> Dashboard
+            </a>
+
+            <a href="#" onclick="switchTab('analytics')" id="tab-analytics"
+                class="nav-item flex items-center px-6 py-3">
+                <i class="ph-bold ph-chart-line text-xl mr-3"></i> Phân tích Dữ liệu
+            </a>
+
+            <p class="px-6 text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 mt-4">QUẢN LÝ NHÂN SỰ &
+                NỘI DUNG</p>
+
+            <a href="#" onclick="switchTab('teachers')" id="tab-teachers" class="nav-item flex items-center px-6 py-3">
+                <i class="ph-bold ph-chalkboard-teacher text-xl mr-3"></i> Giáo viên & Lương
+            </a>
+
+            <a href="#" onclick="switchTab('courses')" id="tab-courses" class="nav-item flex items-center px-6 py-3">
+                <i class="ph-bold ph-graduation-cap text-xl mr-3"></i> Khóa học & Bài giảng
+            </a>
+            <a href="#" onclick="switchTab('users')" id="tab-users" class="nav-item flex items-center px-6 py-3">
+                <i class="ph-bold ph-users text-xl mr-3"></i> Tài khoản Học viên
+            </a>
+
+            <p class="px-6 text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 mt-4">TƯƠNG TÁC & HỖ TRỢ
+            </p>
+
+            <a href="#" onclick="switchTab('contact')" id="tab-contact" class="nav-item flex items-center px-6 py-3">
+                <i class="ph-bold ph-chats text-xl mr-3"></i> Yêu cầu Liên hệ
+            </a>
+
+            <a href="#" onclick="switchTab('reviews')" id="tab-reviews" class="nav-item flex items-center px-6 py-3">
+                <i class="ph-bold ph-star text-xl mr-3"></i> Đánh giá & Phản hồi
+            </a>
+
+            <div id="curriculum-menu-item" class="hidden">
+                <a href="#" onclick="switchTab('curriculum')" id="tab-curriculum"
+                    class="nav-item flex items-center px-6 py-3 bg-blue-900/30 text-blue-300">
+                    <i class="ph-bold ph-list-numbers text-xl mr-3"></i> Soạn Giáo Trình
+                </a>
+            </div>
+        </nav>
+
+        <div class="p-4 border-t border-slate-700/50">
+            <button id="btn-logout"
+                class="flex items-center gap-2 text-sm font-bold text-red-400 hover:text-red-300 transition-colors">
+                <i class="ph-bold ph-sign-out"></i> Đăng xuất
+            </button>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 bg-[#F8FAFC]">
+        <header class="bg-white h-16 border-b border-slate-200 flex items-center justify-between px-4 lg:hidden">
+            <span class="font-bold text-slate-700">Admin Panel</span>
+            <button class="p-2" onclick="document.getElementById('sidebar').classList.toggle('-translate-x-full')"><i
+                    class="ph-bold ph-list text-2xl"></i></button>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-6 md:p-8 relative">
+
+            <div id="view-dashboard" class="animate-fade-in space-y-8">
+                <h2 class="text-2xl font-bold text-slate-800">Tổng quan & Hiệu suất</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-slate-100 card-shadow">
+                        <p class="text-slate-500 text-xs font-bold uppercase">Tổng Học Viên</p>
+                        <h3 class="text-3xl font-bold text-slate-800 mt-2" id="st-students">0</h3>
+                        <p class="text-sm text-blue-500 mt-2 flex items-center gap-1"><i class="ph-fill ph-users"></i>
+                            Đã đăng ký</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-100 card-shadow">
+                        <p class="text-slate-500 text-xs font-bold uppercase">Khóa học</p>
+                        <h3 class="text-3xl font-bold text-slate-800 mt-2" id="st-courses">0</h3>
+                        <p class="text-sm text-purple-500 mt-2 flex items-center gap-1"><i class="ph-fill ph-books"></i>
+                            Đang mở bán</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-100 card-shadow">
+                        <p class="text-slate-500 text-xs font-bold uppercase">Doanh thu (Ước tính)</p>
+                        <h3 class="text-3xl font-bold text-emerald-600 mt-2" id="st-revenue">0đ</h3>
+                        <p class="text-sm text-emerald-500 mt-2 flex items-center gap-1"><i
+                                class="ph-fill ph-currency-circle-dollar"></i> Tổng giá trị</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 bg-white p-6 rounded-xl border border-slate-100 card-shadow">
+                        <h3 class="font-bold text-lg text-slate-800 mb-4">Phân tích Tăng trưởng Học viên</h3>
+                        <div class="h-80" id="student-growth-container">
+                            <canvas id="studentGrowthChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-100 card-shadow flex flex-col">
+                        <h3 class="font-bold text-lg text-slate-800 mb-4">Phân phối Vai trò</h3>
+                        <div class="flex-1 max-h-80" id="role-distribution-container">
+                            <canvas id="roleDistributionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-analytics" class="hidden animate-fade-in space-y-8">
+                <h2 class="text-2xl font-bold text-slate-800">Phân tích Dữ liệu Chuyên sâu</h2>
+                <p class="text-slate-500">Các biểu đồ này mô phỏng dữ liệu phân tích từ Backend.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 bg-white p-6 rounded-xl border border-slate-100 card-shadow">
+                        <h3 class="font-bold text-lg text-slate-800 mb-4">Kênh bán hàng & Doanh thu</h3>
+                        <div class="h-96" id="sales-funnel-container"><canvas id="salesFunnelChart"></canvas></div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-100 card-shadow">
+                        <h3 class="font-bold text-lg text-slate-800 mb-4 flex items-center gap-2"><i
+                                class="ph-fill ph-medal text-yellow-500"></i> Bảng xếp hạng Học tập</h3>
+                        <div class="h-96 overflow-y-auto space-y-3" id="leaderboard-list">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-slate-100 card-shadow">
+                        <h3 class="font-bold text-lg text-slate-800 mb-4">Hiệu suất Khóa học</h3>
+                        <div class="h-80" id="course-performance-container"><canvas
+                                id="coursePerformanceChart"></canvas></div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl border border-slate-100 card-shadow">
+                        <h3 class="font-bold text-lg text-slate-800 mb-4">Phân phối Loại Nội dung</h3>
+                        <div class="h-80" id="content-distribution-container"><canvas
+                                id="contentDistributionChart"></canvas></div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-slate-100 card-shadow">
+                        <h3 class="font-bold text-lg text-slate-800 mb-4">Đánh giá Giảng viên</h3>
+                        <div class="h-80" id="teacher-rating-container"><canvas id="teacherRatingChart"></canvas></div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl border border-slate-100 card-shadow">
+                        <h3 class="font-bold text-lg text-slate-800 mb-4">Phân tích Chi phí Vận hành</h3>
+                        <div class="h-80" id="cost-analysis-container"><canvas id="costAnalysisChart"></canvas></div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-100 card-shadow">
+                    <h3 class="font-bold text-lg text-slate-800 mb-4">Mức độ tương tác & Tỷ lệ rời bỏ</h3>
+                    <div class="h-80" id="engagement-container"><canvas id="engagementChart"></canvas></div>
+                </div>
+            </div>
+
+            <div id="view-teachers" class="hidden animate-fade-in space-y-6">
+                <h2 class="text-2xl font-bold text-slate-800">Quản lý Đội ngũ Giảng viên</h2>
+                <div class="flex justify-end items-center mb-6">
+                    <button onclick="openUserModal('teacher')"
+                        class="bg-green-600 text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-green-700 shadow-lg shadow-green-500/20 flex items-center gap-2">
+                        <i class="ph-bold ph-plus"></i> Cấp tài khoản GV
+                    </button>
+                </div>
+                <div class="bg-white rounded-xl border border-slate-200 card-shadow overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-slate-50 text-xs font-bold text-slate-500 uppercase">
+                            <tr>
+                                <th class="p-4 w-16">ID</th>
+                                <th class="p-4 w-40">Tên GV</th>
+                                <th class="p-4 w-40">Chuyên môn</th>
+                                <th class="p-4 w-24 text-center">Khóa học</th>
+                                <th class="p-4 w-24 text-center">Lương cứng</th>
+                                <th class="p-4 w-24 text-center">Doanh thu (%)</th>
+                                <th class="p-4 w-24 text-right">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teachers-list" class="text-sm divide-y divide-slate-100">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="view-contact" class="hidden animate-fade-in space-y-6">
+                <h2 class="text-2xl font-bold text-slate-800">Quản lý Yêu cầu Liên hệ</h2>
+                <div class="bg-white rounded-xl border border-slate-200 card-shadow overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-slate-50 text-xs font-bold text-slate-500 uppercase">
+                            <tr>
+                                <th class="p-4 w-16">ID</th>
+                                <th class="p-4 w-40">Tên/Email</th>
+                                <th class="p-4 w-32">Chủ đề</th>
+                                <th class="p-4">Nội dung</th>
+                                <th class="p-4 w-24 text-center">Trạng thái</th>
+                                <th class="p-4 w-24 text-right">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contact-list" class="text-sm divide-y divide-slate-100">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="view-reviews" class="hidden animate-fade-in space-y-6">
+                <h2 class="text-2xl font-bold text-slate-800">Đánh giá & Phản hồi</h2>
+                <div class="bg-white rounded-xl border border-slate-200 card-shadow overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-slate-50 text-xs font-bold text-slate-500 uppercase">
+                            <tr>
+                                <th class="p-4 w-16">ID</th>
+                                <th class="p-4 w-40">Khóa học</th>
+                                <th class="p-4 w-40">Người dùng</th>
+                                <th class="p-4 w-20">Rate</th>
+                                <th class="p-4">Nội dung</th>
+                                <th class="p-4 w-24 text-right">Ẩn/Xóa</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reviews-list" class="text-sm divide-y divide-slate-100">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="view-courses" class="hidden animate-fade-in">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-slate-800">Kho học liệu</h2>
+                    <button onclick="openCourseModal()"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-blue-700 shadow-lg shadow-blue-500/20 flex items-center gap-2">
+                        <i class="ph-bold ph-plus"></i> Tạo khóa học
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" id="course-list">
+                </div>
+            </div>
+
+            <div id="view-curriculum" class="hidden animate-fade-in">
+                <div class="flex items-center gap-4 mb-6">
+                    <button onclick="switchTab('courses')"
+                        class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center hover:bg-slate-50 card-shadow">
+                        <i class="ph-bold ph-arrow-left"></i>
+                    </button>
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800" id="curr-course-title">Tên khóa học</h2>
+                        <p class="text-sm text-slate-500">Quản lý chương và bài học</p>
+                    </div>
+                    <button onclick="handleAddChapter()"
+                        class="ml-auto bg-slate-800 text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-slate-900 flex items-center justify-center gap-2 card-shadow">
+                        <i class="ph-bold ph-folder-plus"></i> Thêm Chương
+                    </button>
+                </div>
+
+                <div id="curriculum-container" class="space-y-6 max-w-4xl mx-auto pb-20">
+                </div>
+            </div>
+
+            <div id="view-users" class="hidden animate-fade-in">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-slate-800">Quản lý tài khoản Học viên</h2>
+                    <button onclick="openUserModal('student')"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-blue-700 shadow-lg shadow-blue-500/20 flex items-center gap-2">
+                        <i class="ph-bold ph-plus"></i> Cấp tài khoản
+                    </button>
+                </div>
+                <div class="bg-white rounded-xl border border-slate-200 card-shadow overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-slate-50 text-xs font-bold text-slate-500 uppercase">
+                            <tr>
+                                <th class="p-4">ID</th>
+                                <th class="p-4">Họ tên</th>
+                                <th class="p-4">Email</th>
+                                <th class="p-4">Vai trò</th>
+                                <th class="p-4 text-right">Xóa</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-list" class="text-sm divide-y divide-slate-100">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="user-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal('user-modal')"></div>
+        <div class="relative bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md">
+            <h3 class="text-xl font-bold mb-4">Thông tin người dùng mới</h3>
+            <form id="user-form" class="space-y-3">
+                <input type="text" id="u-name" placeholder="Họ tên"
+                    class="w-full p-3 border rounded-lg focus:border-blue-500 outline-none" required>
+                <input type="email" id="u-email" placeholder="Email"
+                    class="w-full p-3 border rounded-lg focus:border-blue-500 outline-none" required>
+                <input type="password" id="u-pass" placeholder="Mật khẩu"
+                    class="w-full p-3 border rounded-lg focus:border-blue-500 outline-none" required>
+                <select id="u-role" class="w-full p-3 border rounded-lg bg-white focus:border-blue-500 outline-none">
+                    <option value="student">Học viên</option>
+                    <option value="teacher">Giảng viên</option>
+                    <option value="admin">Quản trị viên</option>
+                </select>
+                <button type="submit"
+                    class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold mt-2 hover:bg-blue-700 transition-colors">Cấp
+                    tài khoản</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="teacher-detail-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal('teacher-detail-modal')"></div>
+        <div class="relative bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md">
+            <h3 class="text-xl font-bold mb-4" id="t-modal-title">Cập nhật thông tin Giảng viên</h3>
+            <form id="teacher-detail-form" class="space-y-4">
+                <input type="hidden" id="t-user-id">
+                <div class="text-sm font-bold text-slate-700">GV: <span id="t-name-display"
+                        class="font-extrabold text-blue-600"></span></div>
+
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Chuyên môn</label>
+                    <input type="text" id="t-specialty" placeholder="VD: Fullstack ReactJS"
+                        class="w-full p-3 border rounded-lg focus:border-blue-500 outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Lương cứng hàng tháng (VNĐ)</label>
+                    <input type="number" id="t-base-salary" placeholder="VD: 30000000"
+                        class="w-full p-3 border rounded-lg focus:border-blue-500 outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Doanh thu chia sẻ (%)</label>
+                    <input type="number" step="0.01" id="t-revenue-share" placeholder="VD: 0.15 (15%)"
+                        class="w-full p-3 border rounded-lg focus:border-blue-500 outline-none">
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold mt-2 hover:bg-blue-700 transition-colors">Lưu
+                    Chi tiết Lương</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="course-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal('course-modal')"></div>
+        <div class="relative bg-white rounded-2xl shadow-2xl p-6 w-full max-w-lg">
+            <h3 class="text-xl font-bold mb-4" id="c-modal-title">Thông tin khóa học</h3>
+            <form id="course-form" class="space-y-3">
+                <input type="hidden" id="c-id">
+                <input type="text" id="c-title" placeholder="Tên khóa học"
+                    class="w-full p-3 border rounded-lg focus:border-blue-500 outline-none" required>
+                <div class="grid grid-cols-2 gap-3">
+                    <input type="number" id="c-price" placeholder="Giá tiền"
+                        class="w-full p-3 border rounded-lg focus:border-blue-500 outline-none" required>
+                    <input type="text" id="c-image" placeholder="URL Ảnh bìa"
+                        class="w-full p-3 border rounded-lg focus:border-blue-500 outline-none">
+                </div>
+                <textarea id="c-desc" rows="3" placeholder="Mô tả ngắn"
+                    class="w-full p-3 border rounded-lg focus:border-blue-500 outline-none"></textarea>
+                <button type="submit"
+                    class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold mt-2 hover:bg-blue-700 transition-colors">Lưu
+                    khóa
+                    học</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="lesson-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal('lesson-modal')"></div>
+        <div
+            class="relative bg-white rounded-2xl shadow-2xl p-6 w-full max-w-2xl transform transition-all duration-300">
+            <h3 class="text-xl font-bold mb-4" id="l-modal-title">Thêm Bài học/Tài liệu mới</h3>
+            <form id="lesson-form" class="space-y-4">
+                <input type="hidden" id="l-chapter-id">
+                <input type="hidden" id="l-lesson-id">
+                <input type="hidden" id="l-current-tab" value="video">
+
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Tên bài học</label>
+                    <input type="text" id="l-title" placeholder="Tên bài học/tiêu đề tài liệu"
+                        class="w-full p-3 border rounded-lg focus:border-blue-500 outline-none" required>
+                </div>
+
+                <div class="flex border-b border-slate-200">
+                    <button type="button"
+                        class="tab-btn font-bold text-sm uppercase px-4 py-2 hover:text-blue-500 transition-colors"
+                        data-type="video" onclick="switchLessonTab(this)">Video Bài giảng</button>
+                    <button type="button"
+                        class="tab-btn font-bold text-sm uppercase px-4 py-2 hover:text-blue-500 transition-colors"
+                        data-type="document" onclick="switchLessonTab(this)">Tài liệu</button>
+                    <button type="button"
+                        class="tab-btn font-bold text-sm uppercase px-4 py-2 hover:text-blue-500 transition-colors"
+                        data-type="quiz" onclick="switchLessonTab(this)">Bài trắc nghiệm</button>
+                </div>
+
+                <div id="lesson-tab-content">
+
+                    <div id="tab-video" class="space-y-3">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1">Youtube Video ID</label>
+                                <input type="text" id="l-video-id" placeholder="VD: dQw4w9WgXcQ"
+                                    class="w-full p-3 border rounded-lg focus:border-blue-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1">Thời lượng
+                                    (phút:giây)</label>
+                                <input type="text" id="l-duration" placeholder="VD: 10:30"
+                                    class="w-full p-3 border rounded-lg focus:border-blue-500 outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-document" class="hidden">
+                        <label class="block text-sm font-bold text-slate-700 mb-1">Nội dung/Code Snippet/Link</label>
+                        <textarea id="l-content" class="lesson-textarea" rows="8"
+                            placeholder="Nhập nội dung bài giảng, code snippet, hoặc link tài liệu PDF/Drive tại đây..."></textarea>
+                    </div>
+
+                    <div id="tab-quiz" class="hidden">
+                        <label class="block text-sm font-bold text-slate-700 mb-1">Cấu trúc Bài kiểm tra</label>
+                        <textarea id="l-quiz-content" class="lesson-textarea" rows="8"
+                            placeholder="Nhập cấu trúc câu hỏi và đáp án cho bài trắc nghiệm (ví dụ: JSON array)."></textarea>
+                        <p class="text-xs text-slate-500 mt-2">API Backend cần xử lý trường này để tạo Quiz thực tế.</p>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg space-y-3">
+                    <div class="flex items-center gap-2 text-blue-800 font-bold">
+                        <i class="ph-bold ph-brain text-xl"></i> Tích hợp AI Content Generation
+                    </div>
+                    <textarea id="l-ai-prompt" class="lesson-textarea" rows="2"
+                        placeholder="VD: Tạo 5 câu hỏi trắc nghiệm về React Hooks cho nội dung này..."></textarea>
+                    <button type="button" onclick="generateAIContent()"
+                        class="w-full py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
+                        <i class="ph-bold ph-arrow-circle-up"></i> Gửi Yêu cầu AI
+                    </button>
+                    <p id="ai-response" class="text-sm text-slate-700 italic hidden"></p>
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold mt-2 hover:bg-blue-700 transition-colors"
+                    id="l-submit-btn">Lưu Bài học</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        const token = localStorage.getItem('token');
+        let currentCourseId = null;
+        let allCourses = [];
+        let allLessons = {};
+        let charts = {};
+
+        const MOCK_TEACHER_DATA = [
+            { id: 2, name: 'Thầy Giáo Ba', specialty: 'Fullstack Dev, React', courses: 2, revenue_share: 0.15, base_salary: 30000000 },
+            { id: 4, name: 'Cô Phạm Thị D', specialty: 'UI/UX Design, Figma', courses: 1, revenue_share: 0.10, base_salary: 20000000 },
+            { id: 1, name: 'Admin HHT', specialty: 'Management, NodeJS', courses: 0, revenue_share: 0.05, base_salary: 50000000 },
+            { id: 99, name: 'Giảng viên X', specialty: 'Python, Data Science', courses: 1, revenue_share: 0.12, base_salary: 25000000 },
+        ];
+
+        const userStr = localStorage.getItem('user');
+        const user = userStr ? JSON.parse(userStr) : {};
+        if (!token || (user.role !== 'admin' && user.role !== 'teacher')) {
+            Swal.fire('Lỗi', 'Bạn không có quyền truy cập trang quản trị!', 'error').then(() => window.location.href = 'login.html');
+        }
+
+        function openUserModal(defaultRole = 'student') {
+            document.getElementById('u-role').value = defaultRole;
+            document.getElementById('user-modal').classList.remove('hidden');
+            document.getElementById('user-form').reset();
+        }
+        function openCourseModal(isEdit = false) {
+            document.getElementById('c-modal-title').innerText = isEdit ? 'Cập nhật khóa học' : 'Tạo khóa học mới';
+            document.getElementById('course-modal').classList.remove('hidden');
+            if (!isEdit) document.getElementById('course-form').reset();
+        }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+        function switchLessonTab(target) {
+            const type = target.dataset.type;
+            document.getElementById('l-current-tab').value = type;
+
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            target.classList.add('active');
+
+            document.getElementById('tab-video').classList.add('hidden');
+            document.getElementById('tab-document').classList.add('hidden');
+            document.getElementById('tab-quiz').classList.add('hidden');
+
+            document.getElementById(`tab-${type}`).classList.remove('hidden');
+
+            document.getElementById('l-video-id').removeAttribute('required');
+            document.getElementById('l-content').removeAttribute('required');
+            document.getElementById('l-quiz-content').removeAttribute('required');
+
+            if (type === 'video') {
+                document.getElementById('l-video-id').setAttribute('required', 'required');
+            } else if (type === 'document') {
+                document.getElementById('l-content').setAttribute('required', 'required');
+            } else if (type === 'quiz') {
+                document.getElementById('l-quiz-content').setAttribute('required', 'required');
+            }
+        }
+
+        function openLessonModal(chapterId, lessonId = null) {
+            const modal = document.getElementById('lesson-modal');
+            const form = document.getElementById('lesson-form');
+            form.reset();
+
+            document.getElementById('l-chapter-id').value = chapterId;
+            document.getElementById('l-lesson-id').value = lessonId;
+
+            let initialType = 'video';
+
+            if (lessonId) {
+                const lesson = allLessons[lessonId];
+                if (!lesson) return;
+
+                document.getElementById('l-modal-title').innerText = 'Chỉnh sửa Bài học';
+                document.getElementById('l-title').value = lesson.title;
+
+                initialType = lesson.type || 'video';
+
+                if (initialType === 'video') {
+                    document.getElementById('l-video-id').value = lesson.video_id || '';
+                    document.getElementById('l-duration').value = lesson.duration || '';
+                } else if (initialType === 'document') {
+                    document.getElementById('l-content').value = lesson.content || '';
+                } else if (initialType === 'quiz') {
+                    document.getElementById('l-quiz-content').value = lesson.content || '';
+                }
+
+            } else {
+                document.getElementById('l-modal-title').innerText = 'Thêm Bài học mới';
+            }
+
+            switchLessonTab(document.querySelector(`.tab-btn[data-type="${initialType}"]`));
+            modal.classList.remove('hidden');
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(`view-${tab}`).classList.remove('hidden');
+            const navItem = document.getElementById(`tab-${tab}`);
+            if (navItem) navItem.classList.add('active');
+
+            Object.values(charts).forEach(chart => chart.destroy());
+            charts = {};
+
+            if (tab === 'dashboard') loadDashboard();
+            if (tab === 'users') loadUsers();
+            if (tab === 'courses') loadCourses();
+            if (tab === 'analytics') loadAnalytics();
+            if (tab === 'reviews') loadReviews();
+            if (tab === 'contact') loadContacts();
+            if (tab === 'teachers') loadTeachers();
+
+            if (tab !== 'curriculum') document.getElementById('curriculum-menu-item').classList.add('hidden');
+        }
+
+        document.getElementById('btn-logout').addEventListener('click', () => {
+            localStorage.clear(); window.location.href = 'login.html';
+        });
+
+        function setChartPlaceholder(containerId, message = "Chưa có đủ dữ liệu để phân tích") {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `<div class="chart-placeholder">${message}</div>`;
+        }
+
+        function generateAIContent() {
+            const prompt = document.getElementById('l-ai-prompt').value;
+            const aiResponseDiv = document.getElementById('ai-response');
+
+            if (!prompt) {
+                aiResponseDiv.innerText = 'Vui lòng nhập yêu cầu (prompt) cho AI.';
+                aiResponseDiv.classList.remove('hidden');
+                return;
+            }
+
+            aiResponseDiv.classList.remove('hidden', 'text-slate-700');
+            aiResponseDiv.classList.add('text-blue-600');
+            aiResponseDiv.innerHTML = '<i class="ph-bold ph-spinner-gap animate-spin"></i> AI đang tạo nội dung, vui lòng đợi...';
+
+            setTimeout(() => {
+                aiResponseDiv.classList.remove('text-blue-600');
+                aiResponseDiv.classList.add('text-slate-700');
+
+                const currentTab = document.getElementById('l-current-tab').value;
+
+                if (currentTab === 'quiz' && prompt.toLowerCase().includes('câu hỏi')) {
+                    document.getElementById('l-quiz-content').value =
+                        `// Nội dung Quiz được tạo bởi AI
+[
+  {"question": "React Hooks là gì?", "options": ["Function", "Class", "Component"], "answer": "Function"},
+  {"question": "Hook nào dùng để quản lý state?", "options": ["useEffect", "useState", "useContext"], "answer": "useState"}
+]`;
+                    aiResponseDiv.innerText = '✅ AI đã tạo nội dung Quiz và chèn vào tab Trắc nghiệm.';
+                } else if (currentTab === 'document' && prompt.toLowerCase().includes('tóm tắt')) {
+                    document.getElementById('l-content').value =
+                        `# Tóm Tắt Bài Học (AI Generated)
+* **Mục tiêu:** Hiểu cơ bản về vòng đời component.
+* **Key concept:** useEffect thay thế cho componentDidMount và componentWillUnmount.
+* **Code:** Sử dụng \`useEffect(() => { /* side effects */ }, [dependencies])\`.`;
+                    aiResponseDiv.innerText = '✅ AI đã tóm tắt và chèn vào tab Tài liệu.';
+                } else {
+                    aiResponseDiv.innerText = 'AI: Tôi đã tạo nội dung theo yêu cầu và chèn vào tab hiện tại.';
+                }
+            }, 2000);
+        }
+
+        async function loadDashboard() {
+            try {
+                const res = await fetch(`${API_URL}/stats`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await res.json();
+                document.getElementById('st-students').innerText = data.students;
+                document.getElementById('st-courses').innerText = data.courses;
+                document.getElementById('st-revenue').innerText = parseInt(data.revenue).toLocaleString('vi-VN') + 'đ';
+
+                const totalUsers = data.students;
+                const totalCourses = data.courses;
+
+                if (totalUsers === 0) {
+                    setChartPlaceholder('student-growth-container', "Chưa có học viên nào");
+                    setChartPlaceholder('role-distribution-container', "Chưa có người dùng để phân phối vai trò");
+                    return;
+                }
+
+                const mockRoles = [totalUsers, totalCourses > 0 ? MOCK_TEACHER_DATA.length : 0, 1];
+                drawRoleDistributionChart(mockRoles);
+
+                const base = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                const studentData = [...base, totalUsers];
+                drawStudentGrowthChart(studentData);
+
+            } catch (e) {
+                console.error("Lỗi tải Stats:", e);
+                setChartPlaceholder('student-growth-container', "Lỗi kết nối Backend");
+                setChartPlaceholder('role-distribution-container', "Lỗi kết nối Backend");
+            }
+        }
+
+        function drawRoleDistributionChart(data) {
+            document.getElementById('role-distribution-container').innerHTML = '<canvas id="roleDistributionChart"></canvas>';
+            const ctx = document.getElementById('roleDistributionChart').getContext('2d');
+            charts.roleDistributionChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Học viên', 'Giảng viên', 'Admin'],
+                    datasets: [{
+                        data: data,
+                        backgroundColor: ['#3b82f6', '#8b5cf6', '#ef4444'],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        function drawStudentGrowthChart(data) {
+            document.getElementById('student-growth-container').innerHTML = '<canvas id="studentGrowthChart"></canvas>';
+            const ctx = document.getElementById('studentGrowthChart').getContext('2d');
+            charts.studentGrowthChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
+                    datasets: [{
+                        label: 'Số lượng Học viên',
+                        data: data,
+                        fill: true,
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'Số lượng' } }
+                    }
+                }
+            });
+        }
+
+        async function loadAnalytics() {
+            if (allCourses.length === 0) { await loadCourses(); }
+
+            const totalCourses = allCourses.length;
+
+            if (totalCourses === 0) {
+                setChartPlaceholder('sales-funnel-container', "Cần có khóa học để tạo kênh bán hàng");
+                setChartPlaceholder('course-performance-container', "Cần có khóa học để phân tích hiệu suất");
+                setChartPlaceholder('teacher-rating-container', "Cần dữ liệu giảng viên");
+                setChartPlaceholder('cost-analysis-container', "Cần dữ liệu doanh thu & chi phí");
+                setChartPlaceholder('engagement-container', "Cần dữ liệu tương tác");
+                setChartPlaceholder('content-distribution-container', "Cần dữ liệu bài học");
+                document.getElementById('leaderboard-list').innerHTML = '<div class="chart-placeholder">Chưa có dữ liệu bảng xếp hạng</div>';
+                return;
+            }
+
+            const monthlyLabels = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
+
+            const mockSalesData = allCourses.map((c, i) => ({
+                name: c.title,
+                enrollments: Math.floor(Math.random() * 1000) + 100,
+                completionRate: Math.floor(Math.random() * 30) + 60,
+                sales: Math.floor(Math.random() * 100) + 20
+            }));
+
+            drawSalesFunnelChart(monthlyLabels);
+            drawCoursePerformanceChart(mockSalesData);
+            drawTeacherPerformanceChart();
+            drawEngagementChart();
+            drawLeaderboard();
+            drawCostAnalysisChart();
+            drawContentDistributionChart();
+        }
+
+        function drawSalesFunnelChart(labels) {
+            document.getElementById('sales-funnel-container').innerHTML = '<canvas id="salesFunnelChart"></canvas>';
+            const visits = [5000, 7000, 6500, 8000, 9500, 11000, 10500, 13000, 15000, 14000, 16000, 18000];
+            const signups = visits.map(v => Math.round(v * 0.05 + Math.random() * 50));
+            const sales = signups.map(s => Math.round(s * 0.15 + Math.random() * 5));
+
+            const ctx = document.getElementById('salesFunnelChart').getContext('2d');
+            charts.salesFunnelChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        type: 'bar',
+                        label: 'Lượt Truy cập (Visits)',
+                        data: visits,
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                        yAxisID: 'y1',
+                    }, {
+                        type: 'line',
+                        label: 'Doanh số (Sales)',
+                        data: sales,
+                        borderColor: '#059669',
+                        borderWidth: 3,
+                        yAxisID: 'y2',
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y1: { type: 'linear', display: true, position: 'left', title: { display: true, text: 'Visits' } },
+                        y2: { type: 'linear', display: true, position: 'right', title: { display: true, text: 'Sales' }, grid: { drawOnChartArea: false } }
+                    }
+                }
+            });
+        }
+
+        function drawCoursePerformanceChart(data) {
+            document.getElementById('course-performance-container').innerHTML = '<canvas id="coursePerformanceChart"></canvas>';
+            const courseNames = data.map(d => d.name);
+            const enrollments = data.map(d => d.enrollments);
+            const completionRates = data.map(d => d.completionRate);
+
+            const ctx = document.getElementById('coursePerformanceChart').getContext('2d');
+            charts.coursePerformanceChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: courseNames,
+                    datasets: [{
+                        label: 'Tỷ lệ Hoàn thành (%)',
+                        data: completionRates,
+                        backgroundColor: '#8b5cf6',
+                        yAxisID: 'y2',
+                    },
+                    {
+                        label: 'Số lượt Đăng ký (Giả lập)',
+                        data: enrollments,
+                        backgroundColor: '#f59e0b',
+                        yAxisID: 'y1',
+                        hidden: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        y2: { type: 'linear', display: true, position: 'bottom', title: { display: true, text: 'Completion (%)' }, max: 100 },
+                        y1: { type: 'linear', display: true, position: 'top', title: { display: true, text: 'Enrollments' }, grid: { drawOnChartArea: false }, hidden: true }
+                    }
+                }
+            });
+        }
+
+        function drawContentDistributionChart() {
+            document.getElementById('content-distribution-container').innerHTML = '<canvas id="contentDistributionChart"></canvas>';
+            const data = [150, 45, 15];
+            const ctx = document.getElementById('contentDistributionChart').getContext('2d');
+            charts.contentDistributionChart = new Chart(ctx, {
+                type: 'polarArea',
+                data: {
+                    labels: ['Video Bài giảng', 'Tài liệu (PDF/Ghi chú)', 'Bài trắc nghiệm (Quiz)'],
+                    datasets: [{
+                        data: data,
+                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b'],
+                        hoverOffset: 4
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        function drawTeacherPerformanceChart() {
+            document.getElementById('teacher-rating-container').innerHTML = '<canvas id="teacherRatingChart"></canvas>';
+            const teacherNames = MOCK_TEACHER_DATA.map(t => t.name);
+            const ratings = [4.8, 4.6, 4.2, 3.9];
+            const studentCounts = [2500, 1800, 1000, 500];
+
+            const ctx = document.getElementById('teacherRatingChart').getContext('2d');
+            charts.teacherRatingChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: teacherNames,
+                    datasets: [{
+                        label: 'Đánh giá (5.0)',
+                        data: ratings,
+                        backgroundColor: '#10b981',
+                        yAxisID: 'y1',
+                    }, {
+                        label: 'Tổng số Học viên',
+                        data: studentCounts,
+                        type: 'line',
+                        borderColor: '#f97316',
+                        yAxisID: 'y2',
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y1: { type: 'linear', display: true, position: 'left', title: { display: true, text: 'Rating' }, max: 5.0 },
+                        y2: { type: 'linear', display: true, position: 'right', title: { display: true, text: 'Total Students' }, grid: { drawOnChartArea: false } }
+                    }
+                }
+            });
+        }
+
+        function drawCostAnalysisChart() {
+            document.getElementById('cost-analysis-container').innerHTML = '<canvas id="costAnalysisChart"></canvas>';
+            const costLabels = ['Server/Hosting', 'Marketing/Ads', 'Lương GV', 'Bản quyền nội dung'];
+            const costs = [25000000, 40000000, 80000000, 15000000];
+
+            const ctx = document.getElementById('costAnalysisChart').getContext('2d');
+            charts.costAnalysisChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: costLabels,
+                    datasets: [{
+                        data: costs,
+                        backgroundColor: ['#3b82f6', '#f59e0b', '#10b981', '#ef4444'],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        function drawEngagementChart() {
+            document.getElementById('engagement-container').innerHTML = '<canvas id="engagementChart"></canvas>';
+            const weeks = ['Tuần 1', 'Tuần 2', 'Tuần 3', 'Tuần 4', 'Tuần 5', 'Tuần 6'];
+            const activeHours = [8, 7.5, 7, 6.5, 6, 5.5];
+            const dropoutRate = [2, 3, 5, 8, 10, 12];
+
+            const ctx = document.getElementById('engagementChart').getContext('2d');
+            charts.engagementChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: weeks,
+                    datasets: [{
+                        type: 'line',
+                        label: 'Giờ học trung bình / tuần',
+                        data: activeHours,
+                        borderColor: '#10b981',
+                        yAxisID: 'y1',
+                    }, {
+                        type: 'bar',
+                        label: 'Tỷ lệ Rời bỏ (%)',
+                        data: dropoutRate,
+                        backgroundColor: 'rgba(239, 68, 68, 0.7)',
+                        yAxisID: 'y2',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y1: { type: 'linear', display: true, position: 'left', title: { display: true, text: 'Giờ học' }, max: 10 },
+                        y2: { type: 'linear', display: true, position: 'right', title: { display: true, text: 'Dropout %' }, max: 20, grid: { drawOnChartArea: false } }
+                    }
+                }
+            });
+        }
+
+        function drawLeaderboard() {
+            const leaderboardData = [
+                { rank: 1, name: 'Nguyễn Văn A', points: 15400, avatar: 'https://i.pravatar.cc/150?img=68' },
+                { rank: 2, name: 'Trần Thị B', points: 12500, avatar: 'https://i.pravatar.cc/150?img=35' },
+                { rank: 3, name: 'Lê Văn C', points: 10200, avatar: 'https://i.pravatar.cc/150?img=61' },
+                { rank: 4, name: 'Phạm Thị D', points: 8900, avatar: 'https://i.pravatar.cc/150?img=27' },
+                { rank: 5, name: 'Hoàng Minh E', points: 7500, avatar: 'https://i.pravatar.cc/150?img=50' },
+                { rank: 6, name: 'Ngô Việt F', points: 6800, avatar: 'https://i.pravatar.cc/150?img=49' },
+            ];
+
+            const list = document.getElementById('leaderboard-list');
+            if (leaderboardData.length === 0) {
+                list.innerHTML = '<div class="chart-placeholder">Chưa có dữ liệu bảng xếp hạng</div>';
+                return;
+            }
+
+            list.innerHTML = leaderboardData.map(item => `
+                <div class="flex items-center p-3 rounded-xl border border-slate-100 hover:bg-slate-50 transition-colors">
+                    <span class="w-8 font-extrabold text-lg ${item.rank <= 3 ? 'text-yellow-500' : 'text-slate-400'}">${item.rank}</span>
+                    <img src="${item.avatar}" class="w-10 h-10 rounded-full mx-3 border border-white shadow-sm">
+                    <div class="flex-1 min-w-0">
+                        <p class="font-bold text-slate-700 truncate">${item.name}</p>
+                        <p class="text-xs text-slate-500">Điểm: <span class="font-mono text-blue-600 font-bold">${item.points.toLocaleString()}</span></p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function loadTeachers() {
+            const teacherList = document.getElementById('teachers-list');
+            teacherList.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400"><i class="ph-duotone ph-spinner-gap animate-spin text-xl mr-2"></i> Đang tải...</td></tr>`;
+
+            try {
+                const res = await fetch(`${API_URL}/teachers`, { headers: { 'Authorization': `Bearer ${token}` } });
+                if (res.status === 401 || res.status === 403) {
+                    teacherList.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-red-500 font-bold"><i class="ph-bold ph-lock-key text-xl mr-2"></i> Lỗi xác thực. Vui lòng Đăng nhập lại.</td></tr>`;
+                    return;
+                }
+                if (!res.ok) throw new Error('Failed to fetch teachers');
+
+                const data = await res.json();
+
+                if (data.length === 0) {
+                    teacherList.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500 font-medium">Chưa có giảng viên nào.</td></tr>`;
+                    return;
+                }
+
+                teacherList.innerHTML = data.map(t => {
+                    let statusBadge = t.role === 'admin' ? '<span class="bg-red-100 text-red-600 px-2 py-1 rounded-full text-xs font-bold">Admin</span>' : '<span class="bg-purple-100 text-purple-600 px-2 py-1 rounded-full text-xs font-bold">Giảng viên</span>';
+
+                    const salaryFormatted = (t.base_salary || 0).toLocaleString('vi-VN') + 'đ';
+                    const shareFormatted = ((t.revenue_share || 0) * 100).toFixed(1) + '%';
+
+                    return `
+                        <tr class="hover:bg-slate-50 border-b border-slate-100">
+                            <td class="p-4 text-slate-400 font-mono text-xs">${t.id}</td>
+                            <td class="p-4"> 
+                                <p class="font-bold text-slate-700">${t.name}</p>
+                                ${statusBadge}
+                            </td>
+                            <td class="p-4 text-slate-600">${t.specialty || 'Chưa cập nhật'}</td>
+                            <td class="p-4 text-center text-slate-700 font-bold">${t.course_count || 0}</td>
+                            <td class="p-4 text-center font-bold">${salaryFormatted}</td>
+                            <td class="p-4 text-center text-emerald-600 font-bold">${shareFormatted}</td>
+                            <td class="p-4 text-right">
+                                <button onclick="openTeacherDetailModal(${t.id}, '${t.name}', '${t.specialty || ''}', ${t.base_salary || 0}, ${t.revenue_share || 0})" class="text-blue-400 hover:text-blue-600 p-2" title="Sửa Lương/Chuyên môn"><i class="ph-bold ph-pencil-simple"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (error) {
+                teacherList.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-red-500 font-bold">LỖI: Không thể tải danh sách giảng viên. Vui lòng kiểm tra API /teachers.</td></tr>`;
+                console.error("Lỗi khi tải giảng viên:", error);
+            }
+        }
+
+        function openTeacherDetailModal(id, name, specialty, baseSalary, revenueShare) {
+            document.getElementById('t-user-id').value = id;
+            document.getElementById('t-name-display').innerText = name;
+            document.getElementById('t-specialty').value = specialty;
+            document.getElementById('t-base-salary').value = baseSalary;
+            document.getElementById('t-revenue-share').value = revenueShare;
+            document.getElementById('teacher-detail-modal').classList.remove('hidden');
+        }
+
+        document.getElementById('teacher-detail-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const userId = document.getElementById('t-user-id').value;
+            const data = {
+                specialty: document.getElementById('t-specialty').value,
+                base_salary: document.getElementById('t-base-salary').value,
+                revenue_share: document.getElementById('t-revenue-share').value,
+            };
+
+            await fetch(`${API_URL}/teachers/${userId}/details`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify(data)
+            });
+            closeModal('teacher-detail-modal');
+            loadTeachers();
+            Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Đã cập nhật chi tiết giảng viên!', showConfirmButton: false, timer: 1500 });
+        });
+
+
+        async function loadContacts() {
+            const contactList = document.getElementById('contact-list');
+            contactList.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400"><i class="ph-duotone ph-spinner-gap animate-spin text-xl mr-2"></i> Đang tải...</td></tr>`;
+
+            try {
+                const res = await fetch(`${API_URL}/contacts`, { headers: { 'Authorization': `Bearer ${token}` } });
+                if (!res.ok) throw new Error('Failed to fetch contacts');
+
+                const data = await res.json();
+
+                if (data.length === 0) {
+                    contactList.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-500 font-medium">Không có yêu cầu liên hệ nào mới.</td></tr>`;
+                    return;
+                }
+
+                contactList.innerHTML = data.map(c => {
+                    let statusBadge = '';
+                    if (c.status === 'Mới') statusBadge = '<span class="bg-red-500/10 text-red-600 px-2 py-1 rounded-full text-xs font-bold">Mới</span>';
+                    else if (c.status === 'Đã xem') statusBadge = '<span class="bg-blue-500/10 text-blue-600 px-2 py-1 rounded-full text-xs font-bold">Đã xem</span>';
+                    else if (c.status === 'Hoàn thành') statusBadge = '<span class="bg-green-500/10 text-green-600 px-2 py-1 rounded-full text-xs font-bold">Hoàn thành</span>';
+
+                    return `
+                        <tr class="hover:bg-slate-50 border-b border-slate-100 ${c.status === 'Mới' ? 'bg-red-50/50 font-semibold' : ''}">
+                            <td class="p-4 text-slate-400 font-mono text-xs">${c.id}</td>
+                            <td class="p-4">
+                                <p class="font-bold text-slate-700">${c.name || 'N/A'}</p>
+                                <p class="text-xs text-slate-500">${c.email || 'N/A'}</p>
+                            </td>
+                            <td class="p-4 text-purple-600 font-medium">${c.subject || 'Không chủ đề'}</td>
+                            <td class="p-4 text-slate-600 max-w-sm truncate" title="${c.message}">${c.message}</td>
+                            <td class="p-4 text-center">${statusBadge}</td>
+                            <td class="p-4 text-right">
+                                 <button onclick="viewContactDetail(${c.id})" class="text-blue-400 hover:text-blue-600 p-2" title="Xem chi tiết"><i class="ph-bold ph-eye"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (error) {
+                contactList.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-500 font-bold">LỖI: Không thể tải yêu cầu liên hệ. Kiểm tra API /contacts.</td></tr>`;
+                console.error("Lỗi khi tải contacts:", error);
+            }
+        }
+
+        async function viewContactDetail(id) {
+            const res = await fetch(`${API_URL}/contacts/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
+            if (!res.ok) {
+                Swal.fire('Lỗi', 'Không thể tải chi tiết yêu cầu.', 'error');
+                return;
+            }
+            const c = await res.json();
+
+            const statusOptions = {
+                'Mới': 'Mới',
+                'Đã xem': 'Đã xem',
+                'Hoàn thành': 'Hoàn thành'
+            };
+
+            Swal.fire({
+                title: `Yêu cầu: ${c.subject || 'Không chủ đề'}`,
+                html: `
+                    <div class="text-left space-y-3 p-2 mt-4 pt-4 border-t border-slate-200">
+                        <p><strong>Người gửi:</strong> ${c.name || 'N/A'} (${c.email || 'N/A'})</p>
+                        <p><strong>Điện thoại:</strong> ${c.phone || 'N/A'}</p>
+                        <p><strong>Thời gian:</strong> ${new Date(c.created_at).toLocaleString('vi-VN')}</p>
+                        <hr class="my-2 border-slate-100">
+                        <p class="font-bold text-slate-700 mb-1">Nội dung:</p>
+                        <p class="bg-gray-50 p-3 rounded-lg text-sm whitespace-pre-wrap">${c.message}</p>
+                    </div>
+                `,
+                showCancelButton: true,
+                showDenyButton: true,
+                confirmButtonText: 'Cập nhật Trạng thái',
+                cancelButtonText: 'Đóng',
+                denyButtonText: 'Xóa Yêu cầu',
+                input: 'select',
+                inputOptions: statusOptions,
+                inputValue: c.status,
+                confirmButtonColor: '#3b82f6',
+                denyButtonColor: '#EF4444',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`${API_URL}/contacts/${id}/status`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                        body: JSON.stringify({ status: result.value })
+                    }).then(() => {
+                        Swal.fire('Đã cập nhật', `Trạng thái: ${result.value}.`, 'success');
+                        loadContacts();
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire({
+                        title: 'Bạn có chắc chắn muốn xóa?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Xóa Vĩnh Viễn',
+                        confirmButtonColor: '#EF4444'
+                    }).then(deleteConfirm => {
+                        if (deleteConfirm.isConfirmed) {
+                            fetch(`${API_URL}/contacts/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } })
+                                .then(() => {
+                                    Swal.fire('Đã xóa', 'Yêu cầu đã bị xóa.', 'success');
+                                    loadContacts();
+                                });
+                        }
+                    });
+                }
+            });
+        }
+
+        async function loadReviews() {
+            const reviewsList = document.getElementById('reviews-list');
+            reviewsList.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400"><i class="ph-duotone ph-spinner-gap animate-spin text-xl mr-2"></i> Đang tải...</td></tr>`;
+
+            try {
+                const res = await fetch(`${API_URL}/reviews`, { headers: { 'Authorization': `Bearer ${token}` } });
+                if (res.status === 401 || res.status === 403) {
+                    reviewsList.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-500 font-bold"><i class="ph-bold ph-lock-key text-xl mr-2"></i> Lỗi xác thực. Vui lòng Đăng nhập lại.</td></tr>`;
+                    return;
+                }
+                if (!res.ok) throw new Error('Failed to fetch reviews');
+                const data = await res.json();
+
+                if (data.length === 0) {
+                    reviewsList.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-500 font-medium">Không có đánh giá nào.</td></tr>`;
+                    return;
+                }
+
+                reviewsList.innerHTML = data.map(r => `
+                    <tr class="hover:bg-slate-50 border-b border-slate-100">
+                        <td class="p-4 text-slate-400 font-mono text-xs">${r.id}</td>
+                        <td class="p-4 font-bold text-blue-600">${r.course_title || 'N/A'}</td>
+                        <td class="p-4 text-slate-700">${r.user_name || 'Anonymous'}</td>
+                        <td class="p-4 text-yellow-500 font-bold">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</td>
+                        <td class="p-4 text-slate-600 max-w-sm truncate" title="${r.content}">${r.content}</td>
+                        <td class="p-4 text-right">
+                            <button onclick="deleteReview(${r.id})" class="text-red-400 hover:text-red-600 p-2"><i class="ph-bold ph-trash"></i></button>
+                        </td>
+                    </tr>
+                 `).join('');
+
+            } catch (error) {
+                reviewsList.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-500 font-bold">LỖI: Không thể tải đánh giá. (Kiểm tra kết nối)</td></tr>`;
+            }
+        }
+
+        function deleteReview(id) {
+            Swal.fire({
+                title: 'Xóa đánh giá?',
+                text: "Bạn có muốn ẩn hoặc xóa vĩnh viễn đánh giá này?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`${API_URL}/reviews/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } })
+                        .then(() => {
+                            Swal.fire('Đã xóa', 'Đánh giá đã được xóa.', 'success');
+                            loadReviews();
+                        });
+                }
+            });
+        }
+
+        document.getElementById('teacher-detail-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const userId = document.getElementById('t-user-id').value;
+            const data = {
+                specialty: document.getElementById('t-specialty').value,
+                base_salary: document.getElementById('t-base-salary').value,
+                revenue_share: document.getElementById('t-revenue-share').value,
+            };
+
+            await fetch(`${API_URL}/teachers/${userId}/details`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify(data)
+            });
+            closeModal('teacher-detail-modal');
+            loadTeachers();
+            Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Đã cập nhật chi tiết giảng viên!', showConfirmButton: false, timer: 1500 });
+        });
+
+        document.getElementById('lesson-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const chapter_id = document.getElementById('l-chapter-id').value;
+            const lesson_id = document.getElementById('l-lesson-id').value;
+            const type = document.getElementById('l-current-tab').value;
+
+            const data = {
+                chapter_id,
+                title: document.getElementById('l-title').value,
+                type: type,
+                video_id: type === 'video' ? document.getElementById('l-video-id').value : null,
+                duration: type === 'video' ? document.getElementById('l-duration').value : null,
+                content: type === 'document' ? document.getElementById('l-content').value : (type === 'quiz' ? document.getElementById('l-quiz-content').value : null)
+            };
+
+            if (type === 'video' && !data.video_id) return Swal.fire('Lỗi', 'Vui lòng nhập Video ID.', 'error');
+            if ((type === 'document' || type === 'quiz') && !data.content) return Swal.fire('Lỗi', 'Vui lòng nhập Nội dung/Cấu trúc.', 'error');
+
+
+            const method = lesson_id ? 'PUT' : 'POST';
+            const url = lesson_id ? `${API_URL}/lessons/${lesson_id}` : `${API_URL}/lessons`;
+
+            await fetch(url, { method, headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, body: JSON.stringify(data) });
+            closeModal('lesson-modal');
+            loadCurriculum(currentCourseId);
+            Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: `Đã ${lesson_id ? 'cập nhật' : 'thêm'} bài học!`, showConfirmButton: false, timer: 1500 });
+        });
+
+        async function deleteChapter(id) {
+            if (await Swal.fire({ title: 'Xóa Chương?', text: "Xóa chương này sẽ xóa tất cả bài học bên trong. Hành động không thể hoàn tác!", icon: 'warning', showCancelButton: true, confirmButtonColor: '#EF4444', cancelButtonText: 'Hủy' }).then(result => result.isConfirmed)) {
+                await fetch(`${API_URL}/chapters/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+                loadCurriculum(currentCourseId);
+                Swal.fire('Đã xóa', 'Chương đã được xóa thành công.', 'success');
+            }
+        }
+
+        async function deleteLesson(id, courseId) {
+            if (await Swal.fire({ title: 'Xóa Bài Học?', text: "Hành động này không thể hoàn tác!", icon: 'warning', showCancelButton: true, confirmButtonColor: '#EF4444', cancelButtonText: 'Hủy' }).then(result => result.isConfirmed)) {
+                await fetch(`${API_URL}/lessons/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+                loadCurriculum(currentCourseId);
+                Swal.fire('Đã xóa', 'Bài học đã được xóa thành công.', 'success');
+            }
+        }
+
+        async function loadCourses() {
+            const list = document.getElementById('course-list');
+            list.innerHTML = '<div class="col-span-full text-center py-10"><i class="ph-duotone ph-spinner-gap animate-spin text-4xl text-blue-500"></i></div>';
+
+            try {
+                const res = await fetch(`${API_URL}/courses`);
+                const courses = await res.json();
+                allCourses = courses;
+
+                if (courses.length === 0) {
+                    list.innerHTML = '<div class="col-span-full text-center text-slate-500">Chưa có khóa học nào.</div>';
+                    return;
+                }
+
+                list.innerHTML = courses.map(c => `
+                    <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all border border-slate-200 overflow-hidden flex flex-col">
+                        <div class="h-40 overflow-hidden relative">
+                            <img src="${c.image}" class="w-full h-full object-cover">
+                            <div class="absolute top-2 right-2 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold text-blue-600 shadow-sm">
+                                ${parseInt(c.price).toLocaleString('vi-VN')}đ
+                            </div>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col">
+                            <h3 class="font-bold text-slate-800 mb-1 line-clamp-2">${c.title}</h3>
+                            <p class="text-xs text-slate-500 mb-4">GV: ${c.instructor_name || 'HHT Academy'}</p>
+                            <div class="mt-auto flex gap-2">
+                                <button onclick="manageCurriculum(${c.id}, '${c.title.replace(/'/g, "\\'")}')" class="flex-1 py-2 bg-blue-50 text-blue-600 rounded-lg text-sm font-bold hover:bg-blue-100 transition-colors">
+                                    <i class="ph-bold ph-list-numbers"></i> Soạn bài
+                                </button>
+                                <button onclick="deleteCourse(${c.id})" class="w-10 flex items-center justify-center bg-red-50 text-red-500 rounded-lg hover:bg-red-100 transition-colors">
+                                    <i class="ph-bold ph-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error(err);
+                list.innerHTML = '<div class="col-span-full text-center text-red-500">Lỗi tải khóa học.</div>';
+            }
+        }
+
+        async function loadUsers() {
+            const list = document.getElementById('user-list');
+            list.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Đang tải...</td></tr>';
+
+            try {
+                const res = await fetch(`${API_URL}/users`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const users = await res.json();
+
+                if (users.length === 0) {
+                    list.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Chưa có học viên nào.</td></tr>';
+                    return;
+                }
+
+                list.innerHTML = users.map(u => `
+                    <tr class="hover:bg-slate-50 border-b border-slate-100">
+                        <td class="p-4 text-slate-500 text-xs font-mono">#${u.id}</td>
+                        <td class="p-4 font-bold text-slate-700">${u.name}</td>
+                        <td class="p-4 text-slate-600">${u.email}</td>
+                        <td class="p-4"><span class="bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs font-bold uppercase">${u.role}</span></td>
+                        <td class="p-4 text-right">
+                             <button onclick="deleteUser(${u.id})" class="text-red-400 hover:text-red-600 p-2"><i class="ph-bold ph-trash"></i></button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                list.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-red-500">Lỗi tải danh sách người dùng.</td></tr>';
+            }
+        }
+
+        async function manageCurriculum(courseId, courseTitle) {
+            currentCourseId = courseId;
+            document.getElementById('curr-course-title').innerText = courseTitle;
+            switchTab('curriculum');
+            document.getElementById('curriculum-menu-item').classList.remove('hidden');
+            loadCurriculum(courseId);
+        }
+
+        async function loadCurriculum(courseId) {
+            const container = document.getElementById('curriculum-container');
+            container.innerHTML = '<div class="text-center py-10">Đang tải giáo trình...</div>';
+
+            try {
+                const res = await fetch(`${API_URL}/courses/${courseId}/curriculum`);
+                const chapters = await res.json();
+                allLessons = {};
+
+                if (chapters.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center py-12 bg-white rounded-xl border border-dashed border-slate-300">
+                            <p class="text-slate-500 mb-4">Khóa học này chưa có nội dung nào.</p>
+                            <button onclick="handleAddChapter()" class="px-4 py-2 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700">Tạo chương đầu tiên</button>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = chapters.map(chap => `
+                    <div class="bg-white rounded-xl border border-slate-200 card-shadow overflow-hidden">
+                        <div class="bg-slate-50 p-4 border-b border-slate-100 flex items-center justify-between group">
+                            <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                                <i class="ph-bold ph-folder-open text-blue-500"></i> ${chap.title}
+                            </h3>
+                            <div class="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
+                                <button onclick="openLessonModal(${chap.id})" class="text-xs font-bold text-blue-600 bg-blue-100 px-3 py-1.5 rounded hover:bg-blue-200 transition-colors">
+                                    + Thêm bài
+                                </button>
+                                <button onclick="deleteChapter(${chap.id})" class="text-slate-400 hover:text-red-500 p-1">
+                                    <i class="ph-bold ph-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="divide-y divide-slate-100">
+                            ${chap.lessons.length === 0 ? '<p class="p-4 text-sm text-slate-400 italic">Chưa có bài học.</p>' :
+                        chap.lessons.map(l => {
+                            allLessons[l.id] = l;
+                            let icon = 'ph-play-circle text-blue-500';
+                            if (l.type === 'document') icon = 'ph-file-text text-orange-500';
+                            if (l.type === 'quiz') icon = 'ph-check-circle text-green-500';
+
+                            return `
+                                    <div class="p-3 pl-6 hover:bg-slate-50 flex items-center justify-between group cursor-pointer transition-colors" onclick="openLessonModal(${chap.id}, ${l.id})">
+                                        <div class="flex items-center gap-3">
+                                            <i class="ph-fill ${icon} text-lg"></i>
+                                            <span class="text-sm font-medium text-slate-700">${l.title}</span>
+                                            <span class="text-[10px] uppercase font-bold text-slate-400 border border-slate-200 px-1.5 rounded">${l.type}</span>
+                                        </div>
+                                        <button onclick="event.stopPropagation(); deleteLesson(${l.id})" class="opacity-0 group-hover:opacity-100 p-1 text-slate-400 hover:text-red-500 transition-all">
+                                            <i class="ph-bold ph-x"></i>
+                                        </button>
+                                    </div>
+                                    `;
+                        }).join('')
+                    }
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = '<div class="text-center text-red-500">Lỗi tải giáo trình.</div>';
+            }
+        }
+
+        async function handleAddChapter() {
+            const { value: title } = await Swal.fire({
+                title: 'Tên chương mới',
+                input: 'text',
+                inputPlaceholder: 'VD: Chương 1 - Nhập môn',
+                showCancelButton: true,
+                confirmButtonText: 'Tạo',
+                cancelButtonText: 'Hủy'
+            });
+
+            if (title) {
+                try {
+                    await fetch(`${API_URL}/chapters`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                        body: JSON.stringify({ course_id: currentCourseId, title })
+                    });
+                    loadCurriculum(currentCourseId);
+                    Swal.fire({ icon: 'success', title: 'Đã tạo chương', toast: true, position: 'top-end', showConfirmButton: false, timer: 1500 });
+                } catch (e) {
+                    Swal.fire('Lỗi', 'Không thể tạo chương', 'error');
+                }
+            }
+        }
+
+        async function deleteCourse(id) {
+            const result = await Swal.fire({
+                title: 'Xóa khóa học này?',
+                text: "Hành động này sẽ xóa toàn bộ chương và bài học bên trong!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                confirmButtonText: 'Xóa vĩnh viễn'
+            });
+
+            if (result.isConfirmed) {
+                try {
+                    await fetch(`${API_URL}/courses/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+                    loadCourses();
+                    Swal.fire('Đã xóa!', 'Khóa học đã bị xóa.', 'success');
+                } catch (e) { Swal.fire('Lỗi', 'Không thể xóa khóa học', 'error'); }
+            }
+        }
+
+        async function deleteUser(id) {
+            const result = await Swal.fire({
+                title: 'Xóa người dùng?',
+                text: "Không thể hoàn tác hành động này!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                confirmButtonText: 'Xóa'
+            });
+
+            if (result.isConfirmed) {
+                try {
+                    await fetch(`${API_URL}/users/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+                    loadUsers();
+                    Swal.fire('Đã xóa!', 'Người dùng đã bị xóa.', 'success');
+                } catch (e) { Swal.fire('Lỗi', 'Không thể xóa người dùng', 'error'); }
+            }
+        }
+
+        function openCourseModal() { document.getElementById('course-modal').classList.remove('hidden'); }
+        function openUserModal(role) { document.getElementById('user-modal').classList.remove('hidden'); document.getElementById('u-role').value = role; }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+        document.getElementById('course-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                title: document.getElementById('c-title').value,
+                price: document.getElementById('c-price').value,
+                image: document.getElementById('c-image').value,
+                description: document.getElementById('c-desc').value
+            };
+            await fetch(`${API_URL}/courses`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, body: JSON.stringify(data) });
+            closeModal('course-modal');
+            loadCourses();
+        });
+
+        document.getElementById('user-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                name: document.getElementById('u-name').value,
+                email: document.getElementById('u-email').value,
+                password: document.getElementById('u-pass').value,
+                role: document.getElementById('u-role').value
+            };
+            await fetch(`${API_URL}/users`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, body: JSON.stringify(data) });
+            closeModal('user-modal');
+            loadUsers();
+        });
+
+        loadDashboard();
+    </script>
+</body>
+
+</html>

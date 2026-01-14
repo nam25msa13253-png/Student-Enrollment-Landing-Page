@@ -1,0 +1,93 @@
+html,
+body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+@media (max-width: 767px) {
+    header .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    #mobile-menu {
+        border-bottom-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    #home h1 {
+        font-size: 2.25rem !important;
+        line-height: 1.2;
+    }
+
+    #home p {
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+
+    #home .filter.blur-\[100px\] {
+        opacity: 0.3;
+        width: 150px;
+        height: 150px;
+    }
+
+    #home img.object-cover {
+        height: 300px;
+    }
+
+    #home .animate-bounce {
+        right: 0 !important;
+        bottom: -20px !important;
+        padding: 0.5rem 1rem !important;
+        transform: scale(0.9);
+    }
+
+    .bg-blue-600 .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
+    .bg-blue-600 .container>div:last-child {
+        grid-column: span 2;
+    }
+
+    .course-card .p-5 {
+        padding: 1rem;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    #home h1 {
+        font-size: 3rem !important;
+    }
+
+    #featured .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.5rem;
+    }
+
+    #contact .flex-col.lg\:flex-row {
+        flex-direction: column;
+    }
+
+    #contact .lg\:w-5\/12,
+    #contact .lg\:w-7\/12 {
+        width: 100%;
+    }
+}
+
+input:focus,
+textarea:focus {
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+@media (hover: none) {
+
+    button,
+    a.btn {
+        min-height: 44px;
+    }
+}

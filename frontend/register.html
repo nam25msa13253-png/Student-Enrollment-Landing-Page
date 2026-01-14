@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký - HHT Academy</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .bg-brand-blue {
+            background-color: #ff7fca;
+            background-image: linear-gradient(rgba(255, 146, 146, 0.9), rgba(255, 152, 238, 0.95)), url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+
+<body class="h-screen w-screen flex overflow-hidden bg-white">
+
+    <div class="hidden lg:flex w-5/12 bg-brand-blue relative flex-col justify-between p-12 text-white">
+
+        <a href="index.html" class="relative z-10 flex items-center gap-3 cursor-pointer">
+            <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center p-1 border border-gray-100">
+                <img src="assets/images/HHT.png" alt="HHT Logo" class="w-full h-full object-contain">
+            </div>
+            <div class="flex flex-col">
+                <span class="font-bold text-lg tracking-wide leading-none">HHT Academy</span>
+                <span class="text-[10px] font-medium text-pink-200 uppercase tracking-wider">HỌC CÙNG HHT</span>
+            </div>
+        </a>
+
+        <div class="relative z-10 mt-10">
+            <h1 class="text-4xl font-extrabold mb-4 leading-tight">Tham gia cộng đồng <br>học tập lớn nhất.</h1>
+            <p class="text-blue-100 text-base mb-8 leading-relaxed max-w-sm">
+                Truy cập không giới hạn vào kho kiến thức, kết nối với các chuyên gia và thay đổi sự nghiệp của bạn.
+            </p>
+
+            <div class="flex items-center gap-3">
+                <div class="flex -space-x-3">
+                    <img class="w-10 h-10 rounded-full border-2 border-[#2E4C9D]"
+                        src="assets/images/Ảnh Nguyễn Tuấn.jpg" alt="">
+                    <img class="w-10 h-10 rounded-full border-2 border-[#2E4C9D]" src="assets/images/Cường.jpeg" alt="">
+                    <img class="w-10 h-10 rounded-full border-2 border-[#2E4C9D]" src="assets/images/Nguyên.jpg" alt="">
+                    <div
+                        class="w-10 h-10 rounded-full border-2 border-[#2E4C9D] bg-white text-[#2E4C9D] flex items-center justify-center text-xs font-bold">
+                        +5k</div>
+                </div>
+                <div>
+                    <p class="font-bold text-white text-sm">Học viên mới</p>
+                    <p class="text-xs text-blue-200">trong tháng này</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative z-10 flex justify-between items-end text-xs text-blue-200">
+            <p>&copy; 2025 HHT Academy Inc.</p>
+            <div class="flex gap-4">
+                <a href="#" class="hover:text-white">Điều khoản</a>
+                <a href="#" class="hover:text-white">Bảo mật</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-1 flex flex-col relative bg-white overflow-y-auto">
+
+        <div class="absolute top-6 right-8 text-sm font-medium">
+            <span class="text-slate-500">Đã có tài khoản?</span>
+            <a href="login.html" class="text-[#2E4C9D] font-bold hover:underline ml-1">Đăng nhập</a>
+        </div>
+
+        <div class="flex-1 flex items-center justify-center p-8">
+            <div class="w-full max-w-[420px] space-y-6">
+
+                <div class="mb-2">
+                    <h2 class="text-2xl font-bold text-slate-900">Tạo tài khoản</h2>
+                    <p class="text-slate-500 text-sm mt-1">Miễn phí mãi mãi. Không cần thẻ tín dụng.</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <button
+                        class="flex items-center justify-center gap-2 py-2.5 border border-slate-200 rounded-lg hover:bg-slate-50 transition-all text-sm font-semibold text-slate-600">
+                        <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5"> Google
+                    </button>
+                    <button
+                        class="flex items-center justify-center gap-2 py-2.5 border border-slate-200 rounded-lg hover:bg-slate-50 transition-all text-sm font-semibold text-slate-600">
+                        <img src="https://www.svgrepo.com/show/475647/facebook-color.svg" class="w-5 h-5"> Facebook
+                    </button>
+                </div>
+
+                <div class="relative flex items-center py-2">
+                    <div class="flex-grow border-t border-slate-200"></div>
+                    <span class="flex-shrink-0 mx-4 text-xs font-bold text-slate-400 uppercase tracking-wider">Hoặc đăng
+                        ký với Email</span>
+                    <div class="flex-grow border-t border-slate-200"></div>
+                </div>
+
+                <form id="register-form" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1.5">Họ và tên</label>
+                        <div class="relative">
+                            <input type="text" id="name"
+                                class="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-200 focus:border-[#2E4C9D] focus:ring-0 outline-none transition-all text-sm font-medium text-slate-800 placeholder:text-slate-400"
+                                placeholder="Nguyễn Văn A" required>
+                            <i
+                                class="ph-bold ph-user absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
+                        </div>
+                        <p id="error-name" class="text-xs text-red-500 mt-1 hidden font-medium">Tên không được chứa số.
+                        </p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1.5">Email</label>
+                        <div class="relative">
+                            <input type="email" id="email"
+                                class="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-200 focus:border-[#2E4C9D] focus:ring-0 outline-none transition-all text-sm font-medium text-slate-800 placeholder:text-slate-400"
+                                placeholder="name@example.com" required>
+                            <i
+                                class="ph-bold ph-envelope-simple absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
+                        </div>
+                        <p id="error-email" class="text-xs text-red-500 mt-1 hidden font-medium">Email không hợp lệ.
+                        </p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1.5">Mật khẩu</label>
+                        <div class="relative">
+                            <input type="password" id="password"
+                                class="w-full pl-10 pr-10 py-3 rounded-lg border border-slate-200 focus:border-[#2E4C9D] focus:ring-0 outline-none transition-all text-sm font-medium text-slate-800 placeholder:text-slate-400"
+                                placeholder="••••••••" required>
+                            <i
+                                class="ph-bold ph-lock-key absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
+                            <button type="button" onclick="togglePass()"
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                                <i id="eye-icon" class="ph-bold ph-eye"></i>
+                            </button>
+                        </div>
+                        <p id="error-password" class="text-xs text-red-500 mt-1 hidden font-medium">Mật khẩu không hợp
+                            lệ.</p>
+                        <ul id="password-requirements" class="mt-2 text-xs text-slate-500 space-y-1">
+                            <li><i id="req-length" class="ph-bold ph-circle text-gray-400 mr-2"></i> Tối thiểu 6 ký tự
+                            </li>
+                            <li><i id="req-uppercase" class="ph-bold ph-circle text-gray-400 mr-2"></i> 1 chữ hoa, 1
+                                chữ thường</li>
+                            <li><i id="req-special" class="ph-bold ph-circle text-gray-400 mr-2"></i> 1 ký tự đặc biệt
+                                (VD: !@#$%)</li>
+                        </ul>
+                    </div>
+
+                    <div class="flex items-start gap-3 mt-2">
+                        <input type="checkbox" id="terms"
+                            class="mt-1 w-4 h-4 text-[#2E4C9D] border-gray-300 rounded focus:ring-[#2E4C9D] cursor-pointer"
+                            required>
+                        <label for="terms" class="text-xs text-slate-500 leading-normal cursor-pointer">
+                            Tôi đồng ý với <a href="#" class="text-[#2E4C9D] font-bold hover:underline">Điều khoản sử
+                                dụng</a> và <a href="#" class="text-[#2E4C9D] font-bold hover:underline">Chính sách bảo
+                                mật</a> của HHT Academy.
+                        </label>
+                    </div>
+
+                    <div id="msg"
+                        class="hidden p-3 rounded-lg bg-red-50 border border-red-100 text-red-600 text-xs font-bold flex items-center gap-2">
+                        <i class="ph-fill ph-warning-circle text-base"></i> <span id="msg-text">Lỗi</span>
+                    </div>
+
+                    <button type="submit" id="btn-submit"
+                        class="w-full py-3.5 bg-[#0f172a] hover:bg-black text-white font-bold text-sm rounded-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-4 shadow-lg">
+                        <span>Tạo tài khoản</span>
+                        <i class="ph-bold ph-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+
+        function togglePass() {
+            const input = document.getElementById('password');
+            const icon = document.getElementById('eye-icon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('ph-eye', 'ph-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('ph-eye-slash', 'ph-eye');
+            }
+        }
+
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+
+        nameInput.addEventListener('input', () => validateInput('name'));
+        emailInput.addEventListener('input', () => validateInput('email'));
+        passwordInput.addEventListener('input', () => validateInput('password'));
+
+
+        function updateRequirement(id, isMet) {
+            const el = document.getElementById(id);
+            if (isMet) {
+                el.classList.replace('ph-circle', 'ph-check-circle');
+                el.classList.replace('text-gray-400', 'text-green-500');
+            } else {
+                el.classList.replace('ph-check-circle', 'ph-circle');
+                el.classList.replace('text-green-500', 'text-gray-400');
+            }
+        }
+
+        function validateInput(field) {
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            let isValid = true;
+
+            function setError(elementId, message) {
+                document.getElementById(elementId).innerText = message;
+                document.getElementById(elementId).classList.remove('hidden');
+                document.getElementById(elementId.replace('error-', '')).classList.add('border-red-500');
+                isValid = false;
+            }
+
+            function clearError(elementId) {
+                document.getElementById(elementId).classList.add('hidden');
+                document.getElementById(elementId.replace('error-', '')).classList.remove('border-red-500');
+            }
+
+            if (field === 'name' || field === 'all') {
+                const nameRegex = /\d/;
+                if (nameRegex.test(name)) {
+                    setError('error-name', 'Tên không được chứa ký tự số.');
+                } else if (name !== nameInput.value) {
+                    setError('error-name', 'Tên không được chứa khoảng trắng ở đầu hoặc cuối.');
+                }
+                else {
+                    clearError('error-name');
+                }
+            }
+
+            if (field === 'email' || field === 'all') {
+                const hasValidFormat = email.includes('@') && email.includes('.');
+
+                if (!hasValidFormat) {
+                    setError('error-email', 'Vui lòng nhập định dạng email hợp lệ.');
+                } else {
+                    clearError('error-email');
+                }
+            }
+
+
+            if (field === 'password' || field === 'all') {
+                const isLengthMet = password.length >= 6;
+                const isCaseMet = /[A-Z]/.test(password) && /[a-z]/.test(password);
+                const isSpecialMet = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+                updateRequirement('req-length', isLengthMet);
+                updateRequirement('req-uppercase', isCaseMet);
+                updateRequirement('req-special', isSpecialMet);
+
+                const isPasswordValid = isLengthMet && isCaseMet && isSpecialMet;
+
+                if (!isPasswordValid && password.length > 0) {
+                    setError('error-password', 'Mật khẩu phải đáp ứng tất cả các yêu cầu bên dưới.');
+                } else {
+                    clearError('error-password');
+                }
+
+                if (password.length > 0) {
+                    document.getElementById('password-requirements').classList.remove('text-red-500');
+                } else {
+                    clearError('error-password');
+                }
+            }
+            return isValid;
+        }
+
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            const msgDiv = document.getElementById('msg');
+            const msgText = document.getElementById('msg-text');
+            const btn = document.getElementById('btn-submit');
+
+            const isFormValid = validateInput('all');
+
+            if (!isFormValid || !document.getElementById('terms').checked) {
+                if (!document.getElementById('terms').checked) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Chưa đồng ý điều khoản',
+                        text: 'Vui lòng chấp nhận Điều khoản sử dụng và Chính sách bảo mật.',
+                        confirmButtonColor: '#F59E0B'
+                    });
+                }
+                msgText.innerText = 'Vui lòng sửa các lỗi trong form trước khi đăng ký.';
+                msgDiv.classList.remove('hidden');
+                return;
+            }
+
+            btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Đang gửi mail...';
+            btn.disabled = true;
+            btn.classList.add('opacity-80');
+            msgDiv.classList.add('hidden');
+
+            try {
+                const res = await fetch(`${API_URL}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password })
+                });
+                //nắt đầu gửi request đăng ký (Note CTuấn)
+                const data = await res.json();
+
+                if (res.ok) {
+                    btn.classList.replace('bg-[#0f172a]', 'bg-green-600');
+                    btn.innerHTML = '<i class="ph-bold ph-check-circle"></i> Đã gửi email!';
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Đăng ký thành công!',
+                        text: 'Vui lòng kiểm tra email (cả mục Spam) để nhận thư chào mừng.',
+                        confirmButtonColor: '#2E4C9D',
+                        confirmButtonText: 'Đăng nhập ngay'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = 'login.html';
+                        }
+                    });
+
+                } else {
+                    throw new Error(data.message || 'Đăng ký thất bại');
+                }
+            } catch (err) {
+                msgText.innerText = err.message.includes('Failed to fetch') ? 'Lỗi kết nối Server API (Port 3000).' : err.message;
+                msgDiv.classList.remove('hidden');
+
+                btn.disabled = false;
+                btn.classList.remove('opacity-80');
+                btn.classList.replace('bg-green-600', 'bg-[#0f172a]');
+                btn.innerHTML = '<span>Tạo tài khoản</span><i class="ph-bold ph-arrow-right"></i>';
+            }
+        });
+    </script>
+</body>
+
+</html>

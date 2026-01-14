@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên hệ - HHT Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen font-[Inter]">
+    <header class="sticky top-0 z-50 bg-white shadow-md h-20">
+        <div class="container mx-auto px-4 h-full flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center p-1 border border-gray-100">
+                    <img src="assets/images/HHT.png" alt="HHT Logo" class="w-full h-full object-contain">
+                </div>
+                <div class="flex flex-col">
+                    <span
+                        class="text-xl font-extrabold text-gray-800 uppercase leading-none group-hover:text-blue-700 transition-colors">HHT</span>
+                    <span class="text-xs font-semibold text-blue-600 tracking-[0.2em] leading-none">ACADEMY</span>
+                </div>
+            </a>
+
+            <nav class="hidden lg:flex items-center gap-8">
+                <a href="index.html#home"
+                    class="text-gray-600 hover:text-blue-700 font-bold text-sm uppercase tracking-wide transition-colors py-2 hover:border-b-2 hover:border-blue-700">Trang
+                    chủ</a>
+                <a href="about.html"
+                    class="text-gray-600 hover:text-blue-700 font-bold text-sm uppercase tracking-wide transition-colors py-2 hover:border-b-2 hover:border-blue-700">Giới
+                    thiệu</a>
+                <a href="featured.html"
+                    class="text-gray-600 hover:text-blue-700 font-bold text-sm uppercase tracking-wide transition-colors py-2 hover:border-b-2 hover:border-blue-700">Khóa
+                    học</a>
+
+                <a href="contact.html"
+                    class="text-blue-700 font-bold text-sm uppercase tracking-wide border-b-2 border-blue-700 py-2">Liên
+                    hệ</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <div id="auth-buttons" class="hidden sm:flex items-center gap-3">
+                    <div class="h-6 w-px bg-gray-300 mx-1"></div>
+                    <a href="login.html"
+                        class="px-4 py-2 text-sm font-bold text-gray-700 hover:text-blue-700 transition-colors">Đăng
+                        nhập</a>
+                    <a href="register.html"
+                        class="px-5 py-2.5 text-sm font-bold text-white bg-blue-700 hover:bg-blue-800 rounded-full shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
+                        Đăng ký
+                    </a>
+                </div>
+
+                <div id="user-menu" class="hidden items-center gap-3">
+                    <span class="text-sm text-gray-500 hidden md:inline">Xin chào,</span>
+                    <span id="user-name" class="text-sm font-bold text-blue-700 max-w-[100px] truncate">User</span>
+                    <a href="admin.html" id="admin-link"
+                        class="hidden text-xs bg-red-100 text-red-600 px-2 py-1 rounded font-bold hover:bg-red-200">Admin</a>
+                    <button id="btn-logout" class="text-xl text-gray-500 hover:text-red-600 ml-2" title="Đăng xuất">
+                        <i class="ph-bold ph-sign-out"></i>
+                    </button>
+                </div>
+
+                <button id="mobile-menu-btn" class="lg:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <i class="ph ph-list text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+
+        <section class="bg-slate-900 text-white py-20 text-center relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10"
+                style="background-image: url('https://www.transparenttextures.com/patterns/cubes.png');"></div>
+            <div class="container mx-auto px-4 relative z-10">
+                <h1 class="text-4xl font-bold mb-4">Liên hệ với chúng tôi</h1>
+                <p class="text-slate-300 max-w-2xl mx-auto">Chúng tôi luôn sẵn sàng lắng nghe và giải đáp mọi thắc mắc
+                    của bạn về khóa học, lộ trình và cơ hội nghề nghiệp.</p>
+            </div>
+        </section>
+
+
+        <section class="py-16">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+
+                    <div class="lg:col-span-1 space-y-6">
+
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 shrink-0">
+                                <i class="ph-fill ph-map-pin text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-1">Địa chỉ</h3>
+                                <p class="text-sm text-gray-600 leading-relaxed">Trường Cao Đẳng Công Nghệ Cao Hà Nội
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 shrink-0">
+                                <i class="ph-fill ph-envelope-simple text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-1">Email</h3>
+                                <p class="text-sm text-gray-600">tuantienti2612@gmail.com</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 shrink-0">
+                                <i class="ph-fill ph-phone text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-1">Hotline</h3>
+                                <p class="text-sm text-gray-600">0986317275 (Zalo)</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="lg:col-span-2 bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Gửi tin nhắn cho HHT</h2>
+                        <form id="contact-page-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Họ tên</label>
+                                <input type="text" id="contact-name" name="name"
+                                    class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
+                                    placeholder="Nguyễn Văn A" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Email</label>
+                                <input type="email" id="contact-email" name="email"
+                                    class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
+                                    placeholder="email@example.com" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Số điện thoại</label>
+                                <input type="tel" id="contact-phone" name="phone"
+                                    class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
+                                    placeholder="09xxxxxxx">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Chủ đề</label>
+                                <select id="contact-subject" name="subject"
+                                    class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
+                                    required>
+                                    <option value="Tư vấn khóa học">Tư vấn khóa học</option>
+                                    <option value="Hỗ trợ kỹ thuật">Hỗ trợ kỹ thuật</option>
+                                    <option value="Hợp tác đào tạo">Hợp tác đào tạo</option>
+                                    <option value="Khác">Khác</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Nội dung</label>
+                                <textarea rows="5" id="contact-message-body" name="message"
+                                    class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all resize-none"
+                                    placeholder="Nhập nội dung cần hỗ trợ..." required></textarea>
+                            </div>
+                            <div class="md:col-span-2">
+
+                                <button type="submit" id="submit-btn"
+                                    class="px-8 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-all shadow-md hover:shadow-lg transform active:scale-95 flex items-center justify-center gap-2">
+                                    <i class="ph-bold ph-paper-plane-tilt"></i> Gửi tin nhắn ngay
+                                </button>
+                                <div id="contact-message-status" class="mt-4 text-sm font-bold hidden"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+                <div class="mt-16 bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.096814183571!2d105.7800937149326!3d21.02881188599828!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab86cece9ac1%3A0xa9bc04e04602dd1f!2zRlBUIFVuaXZlcnNpdHkgSGFub2kgKEdhbSBD4bqndSBHaeG6pXkp!5e0!3m2!1sen!2s!4v1647855923456!5m2!1sen!2s"
+                        width="100%" height="400" style="border:0; border-radius: 0.75rem;" allowfullscreen=""
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-gray-400 py-10 border-t border-gray-800 text-center text-sm mt-auto">
+        <p>&copy; 2025 HHT Academy. All rights reserved.</p>
+    </footer>
+
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+
+        document.getElementById('contact-page-form').addEventListener('submit', submitContactForm);
+
+        async function submitContactForm(e) {
+            e.preventDefault();
+            const form = e.target;
+            const msgDiv = document.getElementById('contact-message-status');
+            const submitBtn = document.getElementById('submit-btn');
+
+
+            const data = {
+                name: form.querySelector('#contact-name').value,
+                email: form.querySelector('#contact-email').value,
+                phone: form.querySelector('#contact-phone').value,
+                subject: form.querySelector('#contact-subject').value,
+                message: form.querySelector('#contact-message-body').value
+            };
+
+
+            if (!data.name || !data.email || !data.subject || !data.message) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Thiếu thông tin!',
+                    text: 'Vui lòng điền đầy đủ Họ tên, Email, Chủ đề và Nội dung.',
+                    confirmButtonColor: '#F59E0B'
+                });
+                return;
+            }
+
+
+            const originalButtonHtml = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="ph-bold ph-spinner-gap animate-spin"></i> Đang gửi...';
+            submitBtn.disabled = true;
+            submitBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+            submitBtn.classList.add('bg-gray-400');
+            msgDiv.classList.add('hidden');
+
+
+            try {
+                const res = await fetch(`${API_URL}/contacts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await res.json();
+
+                if (res.ok) {
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Gửi thành công!',
+                        text: 'Yêu cầu của bạn đã được gửi đến Admin. Chúng tôi sẽ phản hồi sớm nhất.',
+                        confirmButtonColor: '#10B981'
+                    });
+                    form.reset();
+                } else {
+
+                    throw new Error(result.message || 'Lỗi gửi tin nhắn.');
+                }
+            } catch (err) {
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: err.message.includes('Failed to fetch') ? 'Không thể kết nối đến Server API (Port 3000).' : err.message,
+                    confirmButtonColor: '#EF4444'
+                });
+            } finally {
+                submitBtn.innerHTML = originalButtonHtml;
+                submitBtn.disabled = false;
+                submitBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                submitBtn.classList.remove('bg-gray-400');
+            }
+        }
+    </script>
+</body>
+
+</html>

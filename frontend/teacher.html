@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HHT Academy - Trang Giảng viên</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .ai-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .ai-card:hover {
+            transform: translateY(-5px);
+            border-color: #3b82f6;
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.3);
+        }
+
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .credentials-item {
+            background: linear-gradient(90deg, #f8fafc, #f1f5f9);
+        }
+
+        .tab-btn.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .copy-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-graduation-cap text-white text-xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800">HHT Academy</h1>
+                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Giảng viên</span>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <div class="relative group">
+                    <div class="flex items-center space-x-2 cursor-pointer">
+                        <img id="userAvatar" src="https://ui-avatars.com/api/?name=Teacher&background=10b981&color=fff"
+                            alt="Avatar" class="w-8 h-8 rounded-full">
+                        <span id="userName" class="font-medium text-gray-700">Giảng viên</span>
+                        <i class="fas fa-chevron-down text-gray-500"></i>
+                    </div>
+                    <div
+                        class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block z-50">
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-user mr-2"></i> Hồ sơ
+                        </a>
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-cog mr-2"></i> Cài đặt
+                        </a>
+                        <hr class="my-1">
+                        <a href="#" onclick="logout()" class="block px-4 py-2 text-red-600 hover:bg-red-50">
+                            <i class="fas fa-sign-out-alt mr-2"></i> Đăng xuất
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4">
+            <div class="flex space-x-1">
+                <a href="teacher.html"
+                    class="py-3 px-6 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-t-lg">
+                    <i class="fas fa-chalkboard-teacher mr-2"></i> Quản lý khóa học
+                </a>
+                <a href="#"
+                    class="py-3 px-6 text-blue-600 bg-blue-50 border-b-2 border-blue-600 rounded-t-lg font-medium">
+                    <i class="fas fa-robot mr-2"></i> AI Assistant Hub
+                </a>
+                <a href="#" class="py-3 px-6 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-t-lg">
+                    <i class="fas fa-chart-bar mr-2"></i> Thống kê
+                </a>
+                <a href="#" class="py-3 px-6 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-t-lg">
+                    <i class="fas fa-users mr-2"></i> Học viên
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Header Section -->
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold text-gray-800">AI Assistant Hub</h2>
+            <p class="text-gray-600 mt-2">Công cụ AI hỗ trợ giảng dạy và nghiên cứu theo chuyên môn của bạn</p>
+
+            <div
+                class="mt-4 flex items-center bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-lg border border-blue-200">
+                <i class="fas fa-lightbulb text-yellow-500 text-2xl mr-3"></i>
+                <div>
+                    <p class="text-gray-700"><strong>Mẹo:</strong> Chọn chuyên môn của bạn để xem các công cụ AI phù hợp
+                        nhất. Mỗi công cụ đã được cung cấp tài khoản và prompt tối ưu.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="mb-8 bg-white p-6 rounded-xl shadow">
+            <h3 class="text-lg font-semibold text-gray-700 mb-4">Chọn lĩnh vực chuyên môn</h3>
+            <div class="flex flex-wrap gap-3" id="categoryFilter">
+                <button class="category-btn px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center"
+                    data-category="1">
+                    <i class="fas fa-code mr-2"></i> Lập trình Web
+                </button>
+                <button class="category-btn px-4 py-2 bg-gray-200 text-gray-700 rounded-lg flex items-center"
+                    data-category="2">
+                    <i class="fas fa-chart-bar mr-2"></i> Data Science
+                </button>
+                <button class="category-btn px-4 py-2 bg-gray-200 text-gray-700 rounded-lg flex items-center"
+                    data-category="3">
+                    <i class="fas fa-paint-brush mr-2"></i> Thiết kế & Đồ họa
+                </button>
+                <button class="category-btn px-4 py-2 bg-gray-200 text-gray-700 rounded-lg flex items-center"
+                    data-category="4">
+                    <i class="fas fa-comments mr-2"></i> Kỹ năng mềm
+                </button>
+                <button class="category-btn px-4 py-2 bg-gray-200 text-gray-700 rounded-lg flex items-center"
+                    data-category="5">
+                    <i class="fas fa-language mr-2"></i> Ngoại ngữ
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading" class="text-center py-12">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+            <p class="mt-4 text-gray-600">Đang tải công cụ AI...</p>
+        </div>
+
+        <!-- AI Services Grid -->
+        <div id="aiGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- AI Cards sẽ được render bằng JavaScript -->
+        </div>
+
+        <!-- No Results -->
+        <div id="noResults" class="hidden text-center py-12">
+            <i class="fas fa-robot text-6xl text-gray-300"></i>
+            <h3 class="mt-4 text-xl text-gray-600">Không tìm thấy công cụ AI nào</h3>
+            <p class="text-gray-500">Vui lòng chọn lĩnh vực khác hoặc liên hệ admin để được hỗ trợ</p>
+        </div>
+
+        <!-- Info Section -->
+        <div class="mt-12 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 border border-blue-200">
+            <div class="flex items-start">
+                <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                    <i class="fas fa-shield-alt text-blue-600 text-2xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800">Bảo mật thông tin</h3>
+                    <p class="text-gray-600 mt-2">Các thông tin đăng nhập AI được bảo mật và chỉ hiển thị cho giảng
+                        viên. Vui lòng không chia sẻ thông tin này ra bên ngoài.</p>
+                    <div class="mt-4 flex items-center text-sm text-gray-500">
+                        <i class="fas fa-clock mr-2"></i>
+                        <span>Cập nhật lần cuối: <span id="lastUpdate">Hôm nay</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- AI Service Modal -->
+    <div id="aiModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="modal-overlay fixed inset-0"></div>
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl relative fade-in">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center p-6 border-b">
+                    <div class="flex items-center">
+                        <img id="modalIcon" src="" alt="" class="w-12 h-12 mr-4 rounded-lg">
+                        <div>
+                            <h3 id="modalTitle" class="text-2xl font-bold text-gray-800"></h3>
+                            <span id="modalCategory" class="text-sm text-gray-500"></span>
+                        </div>
+                    </div>
+                    <button id="closeModal" class="text-gray-400 hover:text-gray-600 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="p-6 space-y-6">
+                    <!-- Description -->
+                    <p id="modalDescription" class="text-gray-600"></p>
+
+                    <!-- Action Buttons -->
+                    <div class="flex space-x-4">
+                        <button id="openAiBtn"
+                            class="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-6 rounded-lg hover:opacity-90 transition flex items-center justify-center">
+                            <i class="fas fa-external-link-alt mr-2"></i> Truy cập AI
+                        </button>
+                        <button id="copyPromptBtn"
+                            class="bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-6 rounded-lg hover:opacity-90 transition flex items-center justify-center">
+                            <i class="fas fa-copy mr-2"></i> Copy Prompt
+                        </button>
+                    </div>
+
+                    <!-- Credentials -->
+                    <div>
+                        <h4 class="text-lg font-semibold text-gray-700 mb-3 flex items-center">
+                            <i class="fas fa-key mr-2"></i> Thông tin đăng nhập
+                        </h4>
+                        <div class="space-y-3">
+                            <div id="emailSection" class="credentials-item p-4 rounded-lg hidden">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="text-gray-500 text-sm">Email:</span>
+                                        <p id="modalEmail" class="font-mono text-gray-800 mt-1"></p>
+                                    </div>
+                                    <button
+                                        class="copy-credential-btn px-3 py-1 bg-blue-100 text-blue-600 rounded text-sm hover:bg-blue-200 transition copy-btn"
+                                        data-type="email">
+                                        <i class="fas fa-copy mr-1"></i> Copy
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="passwordSection" class="credentials-item p-4 rounded-lg hidden">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="text-gray-500 text-sm">Mật khẩu:</span>
+                                        <p id="modalPassword" class="font-mono text-gray-800 mt-1"></p>
+                                    </div>
+                                    <button
+                                        class="copy-credential-btn px-3 py-1 bg-blue-100 text-blue-600 rounded text-sm hover:bg-blue-200 transition copy-btn"
+                                        data-type="password">
+                                        <i class="fas fa-copy mr-1"></i> Copy
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="apiKeySection" class="credentials-item p-4 rounded-lg hidden">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="text-gray-500 text-sm">API Key:</span>
+                                        <p id="modalApiKey" class="font-mono text-gray-800 mt-1"></p>
+                                    </div>
+                                    <button
+                                        class="copy-credential-btn px-3 py-1 bg-blue-100 text-blue-600 rounded text-sm hover:bg-blue-200 transition copy-btn"
+                                        data-type="api_key">
+                                        <i class="fas fa-copy mr-1"></i> Copy
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="noCredentials" class="text-center py-4 text-gray-500 hidden">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Không cần thông tin đăng nhập, truy cập trực tiếp qua link
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Smart Prompt -->
+                    <div>
+                        <h4 class="text-lg font-semibold text-gray-700 mb-3 flex items-center">
+                            <i class="fas fa-magic mr-2"></i> Smart Prompt gợi ý
+                        </h4>
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                            <p id="modalPrompt" class="text-gray-700"></p>
+                            <div class="mt-4 text-sm text-gray-500 flex items-center">
+                                <i class="fas fa-lightbulb mr-1"></i>
+                                <span>Prompt này đã được tối ưu cho chuyên môn giảng dạy của bạn</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="border-t p-4 flex justify-end">
+                    <button id="closeModalBottom" class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                        Đóng
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast"
+        class="fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full hidden">
+        <div class="flex items-center">
+            <i id="toastIcon" class="fas fa-check-circle mr-3 text-lg"></i>
+            <div>
+                <p id="toastMessage" class="font-medium"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CẤU HÌNH ĐƯỜNG DẪN API TUYỆT ĐỐI (QUAN TRỌNG)
+        // Nếu backend chạy port 3000, phải chỉ định rõ ở đây
+        const API_BASE_URL = 'http://localhost:3000/api';
+
+        // Biến lưu trữ
+        let currentAiServices = [];
+        let currentCategory = '1'; // Default category: Lập trình Web
+        let currentService = null;
+
+        // DOM Elements
+        const aiGrid = document.getElementById('aiGrid');
+        const loading = document.getElementById('loading');
+        const noResults = document.getElementById('noResults');
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const modal = document.getElementById('aiModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const closeModalBottomBtn = document.getElementById('closeModalBottom');
+        const copyPromptBtn = document.getElementById('copyPromptBtn');
+        const openAiBtn = document.getElementById('openAiBtn');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        const toastIcon = document.getElementById('toastIcon');
+
+        // Khởi tạo
+        document.addEventListener('DOMContentLoaded', function () {
+            // Lấy token từ localStorage (Lưu ý: phải đảm bảo lúc Login bạn lưu với key 'authToken' hoặc 'token')
+            // Thử lấy cả 2 key phổ biến
+            const token = localStorage.getItem('authToken') || localStorage.getItem('token');
+            const userStr = localStorage.getItem('user');
+
+            // Nếu không có token, chuyển về login (bỏ qua bước này nếu muốn test giao diện)
+            if (!token && !userStr) {
+                // window.location.href = 'login.html'; // Tạm đóng để debug
+                console.warn('Chưa đăng nhập');
+            }
+
+            // Cập nhật thông tin user
+            if (userStr) {
+                try {
+                    const user = JSON.parse(userStr);
+                    if (user) {
+                        document.getElementById('userName').textContent = user.name || 'Giảng viên';
+                        if (user.avatar) {
+                            document.getElementById('userAvatar').src = user.avatar;
+                        }
+                    }
+                } catch (e) {
+                    console.error('Lỗi parse user data', e);
+                }
+            }
+
+            // Tải AI services cho category mặc định
+            loadAiServices(currentCategory, token);
+
+            // Xử lý click category buttons
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    // Cập nhật active state
+                    categoryButtons.forEach(btn => {
+                        btn.classList.remove('bg-blue-600', 'text-white');
+                        btn.classList.add('bg-gray-200', 'text-gray-700');
+                    });
+
+                    this.classList.remove('bg-gray-200', 'text-gray-700');
+                    this.classList.add('bg-blue-600', 'text-white');
+
+                    // Load services cho category mới
+                    const newCategory = this.dataset.category;
+                    currentCategory = newCategory;
+                    loadAiServices(newCategory, token);
+                });
+            });
+
+            // Modal handlers
+            closeModalBtn.addEventListener('click', hideModal);
+            closeModalBottomBtn.addEventListener('click', hideModal);
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) {
+                    hideModal();
+                }
+            });
+
+            // Copy prompt button
+            copyPromptBtn.addEventListener('click', copyPrompt);
+
+            // Open AI button
+            openAiBtn.addEventListener('click', openAiService);
+        });
+
+        // Hàm tải AI services
+        async function loadAiServices(categoryId, token) {
+            try {
+                showLoading();
+
+                // SỬA: Dùng API_BASE_URL thay vì đường dẫn tương đối
+                const response = await fetch(`${API_BASE_URL}/ai/services?category_id=${categoryId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.status === 403 || response.status === 401) {
+                    showToast('Phiên đăng nhập hết hạn hoặc không có quyền', 'warning');
+                    return;
+                }
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    currentAiServices = result.data;
+                    renderAiCards(currentAiServices);
+                    // showToast(`Đã tải ${result.data.length} công cụ AI`, 'success');
+                } else {
+                    showNoResults();
+                    console.error('Error loading AI services:', result.message);
+                }
+            } catch (error) {
+                console.error('Lỗi kết nối:', error);
+                showNoResults();
+                showToast('Không thể kết nối đến máy chủ (Port 3000)', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Hàm render AI cards
+        function renderAiCards(services) {
+            if (!services || services.length === 0) {
+                showNoResults();
+                return;
+            }
+
+            aiGrid.innerHTML = '';
+
+            services.forEach(service => {
+                const card = document.createElement('div');
+                card.className = 'ai-card bg-white rounded-xl shadow-lg p-6 cursor-pointer fade-in';
+                card.dataset.id = service.id;
+
+                // Xác định icon mặc định nếu không có, thêm check an toàn cho service.name
+                const serviceName = service.name || 'AI Tool';
+                const iconUrl = service.icon || getDefaultIcon(serviceName);
+
+                card.innerHTML = `
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center">
+                                <img src="${iconUrl}" 
+                                     alt="${serviceName}" 
+                                     class="w-8 h-8"
+                                     onerror="this.src='https://img.icons8.com/color/96/artificial-intelligence.png'">
+                            </div>
+                        </div>
+                        <div class="ml-4 flex-1">
+                            <h4 class="text-lg font-semibold text-gray-800">${serviceName}</h4>
+                            <p class="text-gray-600 text-sm mt-1 line-clamp-2">${service.description || 'Công cụ AI hỗ trợ giảng dạy'}</p>
+                            <div class="mt-4 flex items-center justify-between">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    <i class="fas fa-tag mr-1"></i> ${service.category || 'General'}
+                                </span>
+                                <span class="text-blue-600 font-medium text-sm flex items-center">
+                                    <i class="fas fa-rocket mr-1"></i> Mở
+                                </span>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
+                                <span class="flex items-center">
+                                    <i class="fas fa-star text-yellow-500 mr-1"></i>
+                                    <span>Đã tối ưu</span>
+                                </span>
+                                <span class="flex items-center">
+                                    <i class="fas fa-shield-alt text-green-500 mr-1"></i>
+                                    <span>Bảo mật</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                card.addEventListener('click', () => showModal(service));
+                aiGrid.appendChild(card);
+            });
+        }
+
+        // Hàm lấy icon mặc định
+        function getDefaultIcon(name) {
+            if (!name) return 'https://img.icons8.com/color/96/artificial-intelligence.png';
+
+            const icons = {
+                'gemini': 'https://img.icons8.com/color/96/google-logo.png',
+                'chatgpt': 'https://img.icons8.com/color/96/chatgpt.png',
+                'midjourney': 'https://img.icons8.com/color/96/artificial-intelligence.png',
+                'claude': 'https://img.icons8.com/color/96/brain.png',
+                'notion': 'https://img.icons8.com/color/96/notion.png',
+                'copilot': 'https://img.icons8.com/color/96/github.png'
+            };
+
+            const lowerName = name.toLowerCase();
+            for (const [key, icon] of Object.entries(icons)) {
+                if (lowerName.includes(key)) {
+                    return icon;
+                }
+            }
+
+            return 'https://img.icons8.com/color/96/artificial-intelligence.png';
+        }
+
+        // Hiển thị modal với service details
+        function showModal(service) {
+            currentService = service;
+            const serviceName = service.name || 'AI Tool';
+
+            // Cập nhật modal content
+            document.getElementById('modalTitle').textContent = serviceName;
+            document.getElementById('modalCategory').textContent = service.category || 'General';
+            document.getElementById('modalDescription').textContent = service.description || 'Công cụ AI hỗ trợ giảng dạy và nghiên cứu';
+
+            const iconUrl = service.icon || getDefaultIcon(serviceName);
+            const modalIcon = document.getElementById('modalIcon');
+            modalIcon.src = iconUrl;
+            modalIcon.onerror = function () { this.src = 'https://img.icons8.com/color/96/artificial-intelligence.png'; };
+
+            // Credentials - Hiển thị có điều kiện
+            const emailSection = document.getElementById('emailSection');
+            const passwordSection = document.getElementById('passwordSection');
+            const apiKeySection = document.getElementById('apiKeySection');
+            const noCredentials = document.getElementById('noCredentials');
+
+            // Reset all sections
+            emailSection.classList.add('hidden');
+            passwordSection.classList.add('hidden');
+            apiKeySection.classList.add('hidden');
+            noCredentials.classList.add('hidden');
+
+            // Hiển thị các credentials có sẵn (Thêm check an toàn ?. để tránh lỗi undefined)
+            let hasCredentials = false;
+            const creds = service.credentials || {};
+
+            if (creds.email) {
+                emailSection.classList.remove('hidden');
+                document.getElementById('modalEmail').textContent = creds.email;
+                hasCredentials = true;
+            }
+
+            if (creds.password) {
+                passwordSection.classList.remove('hidden');
+                document.getElementById('modalPassword').textContent = creds.password;
+                hasCredentials = true;
+            }
+
+            if (creds.api_key) {
+                apiKeySection.classList.remove('hidden');
+                document.getElementById('modalApiKey').textContent = maskApiKey(creds.api_key);
+                hasCredentials = true;
+            }
+
+            if (!hasCredentials) {
+                noCredentials.classList.remove('hidden');
+            }
+
+            // Prompt
+            document.getElementById('modalPrompt').textContent = service.prompt || 'Chưa có prompt gợi ý.';
+
+            // Lưu URL và prompt vào dataset của các nút
+            openAiBtn.dataset.url = service.url || '#';
+            copyPromptBtn.dataset.prompt = service.prompt || '';
+
+            // Cập nhật copy credential buttons
+            // Xóa event listener cũ bằng cách clone node (cách nhanh nhất)
+            document.querySelectorAll('.copy-credential-btn').forEach(button => {
+                const newBtn = button.cloneNode(true);
+                button.parentNode.replaceChild(newBtn, button);
+                newBtn.addEventListener('click', function () {
+                    const type = this.dataset.type;
+                    copyCredential(type, service);
+                });
+            });
+
+            // Hiển thị modal
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Mask API key để hiển thị
+        function maskApiKey(apiKey) {
+            if (!apiKey) return '';
+            if (apiKey.length <= 8) return apiKey;
+            return apiKey.substring(0, 8) + '••••••••' + apiKey.substring(apiKey.length - 4);
+        }
+
+        // Ẩn modal
+        function hideModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            currentService = null;
+        }
+
+        // Copy credential
+        function copyCredential(type, service) {
+            let textToCopy = '';
+            const creds = service.credentials || {};
+
+            switch (type) {
+                case 'email':
+                    textToCopy = creds.email;
+                    break;
+                case 'password':
+                    textToCopy = creds.password;
+                    break;
+                case 'api_key':
+                    textToCopy = creds.api_key;
+                    break;
+            }
+
+            if (textToCopy) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showToast(`Đã sao chép ${type.replace('_', ' ')}`, 'success');
+                }).catch(err => {
+                    console.error('Không thể copy', err);
+                    showToast('Lỗi khi sao chép', 'error');
+                });
+            }
+        }
+
+        // Copy prompt
+        function copyPrompt() {
+            const prompt = copyPromptBtn.dataset.prompt;
+            if (prompt) {
+                navigator.clipboard.writeText(prompt).then(() => {
+                    showToast('Đã sao chép prompt!', 'success');
+                });
+            } else {
+                showToast('Không có nội dung prompt', 'info');
+            }
+        }
+
+        // Mở AI service trong tab mới
+        function openAiService() {
+            const url = openAiBtn.dataset.url;
+            if (url && url !== '#') {
+                window.open(url, '_blank');
+                showToast('Đang mở công cụ AI...', 'info');
+            } else {
+                showToast('Chưa có đường dẫn truy cập', 'warning');
+            }
+        }
+
+        // Hiển thị loading state
+        function showLoading() {
+            loading.classList.remove('hidden');
+            aiGrid.innerHTML = '';
+            noResults.classList.add('hidden');
+        }
+
+        // Ẩn loading state
+        function hideLoading() {
+            loading.classList.add('hidden');
+        }
+
+        // Hiển thị no results
+        function showNoResults() {
+            noResults.classList.remove('hidden');
+            aiGrid.innerHTML = '';
+        }
+
+        // Hiển thị toast message
+        function showToast(message, type = 'success') {
+            // Set toast style based on type
+            let bgColor = 'bg-green-100 text-green-800 border border-green-300';
+            let icon = 'fas fa-check-circle';
+
+            if (type === 'error') {
+                bgColor = 'bg-red-100 text-red-800 border border-red-300';
+                icon = 'fas fa-exclamation-circle';
+            } else if (type === 'info') {
+                bgColor = 'bg-blue-100 text-blue-800 border border-blue-300';
+                icon = 'fas fa-info-circle';
+            } else if (type === 'warning') {
+                bgColor = 'bg-yellow-100 text-yellow-800 border border-yellow-300';
+                icon = 'fas fa-exclamation-triangle';
+            }
+
+            // Update toast
+            toast.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full ${bgColor}`;
+            toastIcon.className = `${icon} mr-3 text-lg`;
+            toastMessage.textContent = message;
+
+            // Show toast
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.remove('translate-x-full');
+                toast.classList.add('translate-x-0');
+            }, 10);
+
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('translate-x-0');
+                toast.classList.add('translate-x-full');
+                setTimeout(() => {
+                    toast.classList.add('hidden');
+                }, 300);
+            }, 3000);
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+
+</html>
